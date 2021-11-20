@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="zeo_01">
+    <output-path>$PROJECT_DIR$/out/artifacts/zeo_01</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="spring-java-mybatis-xml-01" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
