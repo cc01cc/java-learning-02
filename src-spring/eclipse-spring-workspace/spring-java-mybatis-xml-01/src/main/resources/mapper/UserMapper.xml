@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间：可以通过调用cn.edu.zjweu.spring.dao.BaseDao.addUser来调用addUser方法 -->
+<mapper namespace="mapper.UserMapper">
+
+	<!-- Buser findByIdAndPassword(Integer id, String password); -->
+	<select id="findByIdAndPassword" parameterType="User"
+		resultType="User">
+		select pk_user_id, user_password from user_account where
+		pk_user_id=#{userId} and user_password=#{userPassword}
+	</select>
+
+
+	<insert id="addUser" parameterType="User"> insert into
+		busertable(pk_user_id,user_password)
+		value (#{userId},#{userPassword})
+	</insert>
+
+
+	<!-- int updatePassword(Integer id, String passwd); -->
+	<!-- <update id="updatePasswordById" parameterType="Buser"> update busertable 
+		set bpwd=#{bpwd} where id=#{id} </update> -->
+
+
+	<!-- <update id="updatePasswordByEmail" parameterType="Buser"> update busertable 
+		set bpwd=#{bpwd} where bemail=#{bemail} </update> -->
+
+
+	<!-- Buser findByEmailAndPassword(String email, String password); -->
+	<!-- <select id="findByEmailAndPassword" parameterType="Buser" resultType="Buser"> 
+		select id,bemail from busertable where bemail=#{bemail} and bpwd=#{bpwd} 
+		</select> -->
+
+
+	<!-- Buser findByEmail(String email); -->
+	<!-- <select id="findByEmail" parameterType="String" resultType="Buser"> 
+		select bemail from busertable where bemail=#{bemail} </select> -->
+
+	<select id="findById" parameterType="String" resultType="User">
+		select pk_user_id from user_account where user_id=#{userId}
+	</select>
+
+
+	<!-- int deleteUser(Integer id, String password); -->
+	<!-- <delete id="deleteUserById" parameterType="Buser"> delete from busertable 
+		where id=#{id} and bpwd=#{bpwd} </delete> -->
+
+
+	<!-- <delete id="deleteUserByEmail" parameterType="Buser"> delete from busertable 
+		where bemail=#{bemail} and bpwd=#{bpwd} </delete> -->
+
+</mapper>
