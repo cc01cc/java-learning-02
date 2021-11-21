@@ -57,3 +57,15 @@ CREATE TABLE file_user(
     utc_create DATETIME DEFAULT CURRENT_TIMESTAMP,
     utc_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )DEFAULT CHARSET = "UTF8MB4";
+
+
+select pk_user_id from user_account
+where pk_user_id = 1;
+
+select pk_user_id, user_password from user_account
+where pk_user_id=1 and user_password="abc";
+    
+
+insert into user_account(pk_user_id,user_password)
+value (1,"abc");
+

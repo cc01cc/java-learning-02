@@ -23,12 +23,20 @@
 
 package com.cc01cc.spring.config;
 
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -36,6 +44,9 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * @author cc01cc
@@ -45,7 +56,9 @@ import org.thymeleaf.templatemode.TemplateMode;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan({"com.cc01cc.spring.controller","com.cc01cc.spring.service","com.cc01cc.spring.dao"})
+@ComponentScan({ "com.cc01cc.spring.controller", "com.cc01cc.spring.service" })
+@MapperScan("com.cc01cc.spring.mapper")
+@EnableTransactionManagement
 public class WebConfig implements WebMvcConfigurer {
 
     public WebConfig() {
@@ -127,7 +140,43 @@ public class WebConfig implements WebMvcConfigurer {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setCharacterEncoding("UTF-8");
+        System.out.print("Thymeleaf初始化完成");
         return viewResolver;
     }
 
+    // 创建HikariCP数据源
+    @Bean
+    public DataSource dataSource() {
+        HikariConfig     config = new HikariConfig("/hikari_mysql.properties");
+        HikariDataSource ds     = new HikariDataSource(config);
+        return ds;
+    }
+
+    // 使用 SqlSessionFactoryBean 注册 SqlSessionFacotry
+    @Bean
+    public SqlSessionFactory sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.cc01cc.spring.pojo");
+        PathMatchingResourcePatternResolver resolver        = new PathMatchingResourcePatternResolver();
+        String                              mapperLocations = "classpath:/com/cc01cc/spring/mapper/*.xml";
+        sqlSessionFactoryBean.setMapperLocations(resolver.getResources(mapperLocations));
+        return sqlSessionFactoryBean.getObject();
+    }
+
+    // @Bean
+    // public MapperFactoryBean<BaseMapper> baseMapper(){
+    // MapperFactoryBean<BaseMapper> factoryBean = new
+    // MapperFactoryBean<>(BaseMapper.class);
+    // facotoryBean.setSqlSessionFactory(sqlSessionFactory());
+    // return factoryBean;
+    // }
+
+    // 开启spring事务管理
+    // https://mybatis.org/spring/zh/transactions.html
+    // 确保 dataSource 与 SqlSenssionFactoryBean 一致
+    @Bean
+    public DataSourceTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
 }
