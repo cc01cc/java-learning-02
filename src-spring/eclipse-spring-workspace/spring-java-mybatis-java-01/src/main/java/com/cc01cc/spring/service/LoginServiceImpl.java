@@ -54,7 +54,9 @@ public class LoginServiceImpl implements LoginService {
         
         User userGet;
 
+        System.out.println("findByIdAndPassword : " + user);
         userGet = baseMapper.findByIdAndPassword(user);
+        System.out.println("userGet : " + userGet);
         if (userGet != null) {
             return true;
         }

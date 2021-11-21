@@ -1,33 +1,36 @@
 package com.cc01cc.spring.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cc01cc.spring.mapper.BaseMapper;
 import com.cc01cc.spring.pojo.User;
 
-
 @Service
-public class RegisterServiceImpl implements RegisterService{
-    
-    
-//    @Autowired
-//    BaseDao baseDao;
-    
-    
+public class RegisterServiceImpl implements RegisterService {
+
+    @Autowired
+    BaseMapper baseMapper;
+
     @Override
     public boolean register(User user) {
-        if(isNew(user)) {
-//            int i = baseDao.addUser(user);
-//            System.out.println(i);
+        if (isNew(user)) {
+            int i = baseMapper.saveUser(user);
+            System.out.println(i);
             return true;
         }
         return false;
     }
-    
-    
+
     public boolean isNew(User user) {
-//        if(baseDao.findById(user)==null) return true;
-//        else return false;
-        return true;
+        System.out.println("isNew : " + user);
+        User userGet = baseMapper.findById(user.getUserId());
+//        String userGet = baseMapper.findById(user.getUserId());
+        System.out.println("userGet : " + userGet);
+        if (userGet== null)
+            return true;
+        else
+            return false;
     }
-    
+
 }

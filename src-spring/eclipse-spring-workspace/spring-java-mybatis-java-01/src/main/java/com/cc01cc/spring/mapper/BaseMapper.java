@@ -4,7 +4,7 @@ import com.cc01cc.spring.pojo.User;
 
 /**
  * @author cc01cc
- * @date 2021-11-21 
+ * @date 2021-11-21
  * @Description: TODO 需要优化为 DDD 架构，详情比较 Repository 和 Dao 的区别
  * 
  */
@@ -19,5 +19,7 @@ public interface BaseMapper {
     public int saveUser(User user);
 
     // @Select("select pk_user_id from user_account where user_id=#{userId}")
-    public User findById(User user);
+    // public User findById(User user);
+     public User findById(String userId);
+//    public String findById(String userId);
 }
