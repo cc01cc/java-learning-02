@@ -33,6 +33,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -56,9 +57,13 @@ import com.zaxxer.hikari.HikariDataSource;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan({ "com.cc01cc.spring.controller", "com.cc01cc.spring.service" })
+@ComponentScan({ "com.cc01cc.spring.controller", "com.cc01cc.spring.service",
+        "com.cc01cc.spring.aspectj" })
 @MapperScan("com.cc01cc.spring.mapper")
+// 开启事务处理支持
 @EnableTransactionManagement
+// 开启 AspectJ 支持
+@EnableAspectJAutoProxy
 public class WebConfig implements WebMvcConfigurer {
 
     public WebConfig() {
