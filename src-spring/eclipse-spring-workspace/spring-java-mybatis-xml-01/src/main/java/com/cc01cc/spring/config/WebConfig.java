@@ -45,7 +45,7 @@ import org.thymeleaf.templatemode.TemplateMode;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.cc01cc.spring.controller")
+@ComponentScan({"com.cc01cc.spring.controller","com.cc01cc.spring.service","com.cc01cc.spring.dao"})
 public class WebConfig implements WebMvcConfigurer {
 
     public WebConfig() {

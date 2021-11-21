@@ -12,7 +12,7 @@
     <h3>
         没有账户，请先<a href="./register">注册</a>
     </h3>
-    <!--     <form action="#" th:action = "@{/login}" th:object="${user}" method = "post">
+        <form action="#" th:action = "@{/login_context_post}" th:object="${user_view}" method = "post">
         用户名：<input type="text" name="userId" id="user-id" th:field="*{userId}">
         <br>
         密码：<input type="password" name="userPassword" id="user-password" th:field="*{userPassword}">
@@ -21,6 +21,6 @@
         <br>
         <button type="submit">登录</button>
         <br>
-    </form> -->
+    </form>
 </body>
 </html>
