@@ -4,7 +4,9 @@
 
 # idea
 
+# VS Code
 
+.vscode*
 
 # MAVEN
 
