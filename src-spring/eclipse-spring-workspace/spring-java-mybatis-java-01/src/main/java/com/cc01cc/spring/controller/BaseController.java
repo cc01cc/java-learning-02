@@ -51,7 +51,7 @@ public class BaseController {
     // 之后可以改用 Token
     @ModelAttribute
     public void isLogin(HttpSession session) throws Exception {
-        if (session.getAttribute("userId") == null) {
+        if (session.getAttribute("user_id") == null) {
             throw new Exception("权限不足");
         }
     }

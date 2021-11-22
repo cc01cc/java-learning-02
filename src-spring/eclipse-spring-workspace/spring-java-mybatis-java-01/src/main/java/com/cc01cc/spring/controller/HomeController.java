@@ -23,6 +23,7 @@
 
 package com.cc01cc.spring.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,14 +32,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cc01cc.spring.pojo.File;
+import com.cc01cc.spring.util.IdMakerUtil;
 
 /**
  * @author cc01cc
@@ -59,7 +61,7 @@ public class HomeController extends BaseController {
     // 定义需要处理的文件
     File fileTodo = new File();
 
-    @GetMapping("/home")
+    @RequestMapping("/home")
     public String returnHome() {
         return "home";
     }
@@ -70,7 +72,7 @@ public class HomeController extends BaseController {
     @PostMapping("/upload-md5-front")
     public String uploadMd5Front(@RequestBody Map<String, String> md5) {
         md5FromFront = md5.get("md5");
-        System.out.println(md5FromFront);
+        System.out.println("md5FromFront : "+md5FromFront);
 
         // System.out.println(md5.get("md5"));
         return "true";
@@ -85,19 +87,30 @@ public class HomeController extends BaseController {
             // @RequestParam 内的值与 前端标签的 name 属性一致
             @RequestParam("file-context") MultipartFile fileContext,
             Model model
-            ) {
+            ) throws IOException {
                 if(!fileContext.isEmpty()) {
                     String md5FromEnd = DigestUtils.md5DigestAsHex(fileContext.getBytes());
-                    if(md5FromEnd!=md5FromFront) {
+                    System.out.println("md5FromEnd : "+md5FromEnd);
+                    if(!md5FromEnd.equals(md5FromFront)) {
                         model.addAttribute("file_upload_info", "文件传输失败");
                         return "home";
                     }
-                    String path = "T:\\zeolab\temp";
-                    fileTodo.setFileName(fileContext.getOriginalFilename());
-//                    fileTodo.setFileId(0);
-                    fileTodo.setFileMD5(path);
-                    fileTodo.setFileLocalStore(path+fileContext.get)
                     
+                    String path = "T:"+java.io.File.separator+"zeolab"+java.io.File.separator+"temp";
+                    fileTodo.setFileName(fileContext.getOriginalFilename());
+                    fileTodo.setFileId(IdMakerUtil.makeId(session.getAttribute("user_id").toString()));
+                    fileTodo.setFileMD5(md5FromEnd);
+                    java.io.File filePath = new java.io.File(path+java.io.File.separator+fileTodo.getFileMD5());
+//                    之前还考虑是不是需要添加文件后缀，但是感觉不用，下载文件时，会将文件名重新赋值
+                    fileTodo.setFileLocalStore(filePath.getPath());
+                    //TODO addFileUserLink(fileTodo.getFileMD5)
+                    fileTodo.setFileSharePassword(null);
+                    fileTodo.setFileParentId(session.getId());
+                    System.out.println("fileTodo"+fileTodo);
+                    model.addAttribute("file_upload_info", "文件传输成功，请刷新页面");
+                    fileContext.transferTo(filePath);
+                }else {
+                    model.addAttribute("file_upload_info", "请选择文件");
                 }
             return "home";
     }

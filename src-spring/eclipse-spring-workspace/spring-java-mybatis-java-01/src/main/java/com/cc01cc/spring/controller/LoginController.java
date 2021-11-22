@@ -97,7 +97,10 @@ public class LoginController {
         // System.out.println("user_key : " + model.getAttribute("user_key"));
 
         if (loginService.checkIdentity(user01)) {
-            session.setAttribute("userId", user01.getUserId());
+            // 将userId添加到session中
+            session.setAttribute("user_id", user01.getUserId());
+            // 设置当前目录为 1
+            session.setAttribute("parent_dir_id", "1");
             return "redirect:/home";
         } else {
             model.addAttribute("login_error", "账户或密码错误，请重新输入");
@@ -106,7 +109,7 @@ public class LoginController {
              * 所以此处需要手动插入 "user_view" 键值对
              */
             model.addAttribute("user_view", new User());
-            return "redirect:/login";
+            return "forward:/login";
         }
     }
 }
