@@ -95,7 +95,8 @@ public class HomeController extends BaseController {
                     String path = "T:\\zeolab\temp";
                     fileTodo.setFileName(fileContext.getOriginalFilename());
 //                    fileTodo.setFileId(0);
-                    fileTodo.setFileMD5(path)
+                    fileTodo.setFileMD5(path);
+                    fileTodo.setFileLocalStore(path+fileContext.get)
                     
                 }
             return "home";
