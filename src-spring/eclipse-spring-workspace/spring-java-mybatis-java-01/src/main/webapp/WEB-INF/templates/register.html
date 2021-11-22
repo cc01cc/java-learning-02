@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+</head>
+
+<body>
+    <h1>注册页</h1>
+    <h3>
+        已有账户，立即<a href="./login">登录</a>
+    </h3>
+    <form action="#" th:action="@{/register_context_post}" th:object="${user_view}" method="post">
+        用户名：<input type="text" name="userId" id="user-id" th:field="*{userId}"> 
+        <br /> 
+        密码：<input type="password" name="userPassword" id="user-password" th:field="*{userPassword}"> 
+        <br>
+         <span th:text=${register_info}></span> 
+         <a th:href="@{/login}"><span th:text=${register_info_login}></span></a>
+         <br>
+        <button type="submit">注册</button>
+        <br>
+    </form>
+</body>
+
+</html>
