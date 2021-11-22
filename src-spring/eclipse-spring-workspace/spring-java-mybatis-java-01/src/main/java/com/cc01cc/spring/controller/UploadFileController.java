@@ -24,7 +24,13 @@
 
 package com.cc01cc.spring.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cc01cc.spring.pojo.File;
 
 /**
  * @author cc01cc
@@ -35,5 +41,18 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UploadFileController {
 
-    // 
+    // 定义从前端传回，后端计算的md5码
+    private String md5FromFont;
+    private String md5FromEnd;
+    
+    // 定义需要处理的文件
+    File fileTodo;
+    
+    @ResponseBody
+    @PostMapping("/upload-md5-front")
+    public String uploadMd5Front(HttpServletResponse response) {
+        System.out.println(response);
+        response.setStatus(200);
+       return "true";
+    }
 }
