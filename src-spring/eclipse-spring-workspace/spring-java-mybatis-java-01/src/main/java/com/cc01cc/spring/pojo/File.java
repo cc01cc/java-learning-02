@@ -31,28 +31,14 @@ package com.cc01cc.spring.pojo;
  */
 public class File {
 
-    private int fileId;
-    private int fileParentId;
     private int fileUserLink;
 
     private String fileMD5;
     private String fileLocalStore;
     private String fileName;
     private String fileSharePassword;
-
-    /**
-     * @return the fileMD5
-     */
-    public String getFileMD5() {
-        return fileMD5;
-    }
-
-    /**
-     * @param fileMD5 the fileMD5 to set
-     */
-    public void setFileMD5(String fileMD5) {
-        this.fileMD5 = fileMD5;
-    }
+    private String fileId;
+    private String fileParentId;
 
     /**
      * @return the fileUserLink
@@ -69,6 +55,20 @@ public class File {
     }
 
     /**
+     * @return the fileMD5
+     */
+    public String getFileMD5() {
+        return fileMD5;
+    }
+
+    /**
+     * @param fileMD5 the fileMD5 to set
+     */
+    public void setFileMD5(String fileMD5) {
+        this.fileMD5 = fileMD5;
+    }
+
+    /**
      * @return the fileLocalStore
      */
     public String getFileLocalStore() {
@@ -80,34 +80,6 @@ public class File {
      */
     public void setFileLocalStore(String fileLocalStore) {
         this.fileLocalStore = fileLocalStore;
-    }
-
-    /**
-     * @return the fileId
-     */
-    public int getFileId() {
-        return fileId;
-    }
-
-    /**
-     * @param fileId the fileId to set
-     */
-    public void setFileId(int fileId) {
-        this.fileId = fileId;
-    }
-
-    /**
-     * @return the fileParentId
-     */
-    public int getFileParentId() {
-        return fileParentId;
-    }
-
-    /**
-     * @param fileParentId the fileParentId to set
-     */
-    public void setFileParentId(int fileParentId) {
-        this.fileParentId = fileParentId;
     }
 
     /**
@@ -139,6 +111,34 @@ public class File {
     }
 
     /**
+     * @return the fileId
+     */
+    public String getFileId() {
+        return fileId;
+    }
+
+    /**
+     * @param fileId the fileId to set
+     */
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    /**
+     * @return the fileParentId
+     */
+    public String getFileParentId() {
+        return fileParentId;
+    }
+
+    /**
+     * @param fileParentId the fileParentId to set
+     */
+    public void setFileParentId(String fileParentId) {
+        this.fileParentId = fileParentId;
+    }
+
+    /**
      * <p>
      * Title: toString
      * </p>
@@ -151,9 +151,9 @@ public class File {
      */
     @Override
     public String toString() {
-        return "File [fileMD5=" + fileMD5 + ", fileUserLink=" + fileUserLink + ", fileLocalStore="
-                + fileLocalStore + ", fileId=" + fileId + ", fileParentId=" + fileParentId
-                + ", fileName=" + fileName + ", fileSharePassword=" + fileSharePassword + "]";
+        return "File [fileUserLink=" + fileUserLink + ", fileMD5=" + fileMD5 + ", fileLocalStore="
+                + fileLocalStore + ", fileName=" + fileName + ", fileSharePassword="
+                + fileSharePassword + ", fileId=" + fileId + ", fileParentId=" + fileParentId + "]";
     }
 
 }

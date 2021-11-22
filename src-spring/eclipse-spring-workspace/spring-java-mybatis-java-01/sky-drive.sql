@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS file_local;
 CREATE TABLE file_local(
     pk_file_md5 char(32) PRIMARY KEY,
     file_user_link INT ,
-    file_local_store VARCHAR(31),
+    file_local_store VARCHAR(255),
     utc_create DATETIME DEFAULT CURRENT_TIMESTAMP,
     utc_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )DEFAULT CHARSET = "UTF8MB4";
@@ -37,8 +37,8 @@ CREATE TABLE file_local(
 
 DROP TABLE IF EXISTS dir_user;
 CREATE TABLE dir_user(
-    pk_dir_id INT PRIMARY KEY AUTO_INCREMENT,
-    parent_id INT,
+    pk_dir_id CHAR(31) PRIMARY KEY,
+    parent_id CHAR(31),
     dir_name varchar(31),
     user_id INT,
     utc_create DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -48,9 +48,9 @@ CREATE TABLE dir_user(
 
 DROP TABLE IF EXISTS file_user;
 CREATE TABLE file_user(
-    pk_file_id INT PRIMARY KEY AUTO_INCREMENT,
+    pk_file_id CHAR(31) PRIMARY KEY,
     file_md5 CHAR(32),
-    parent_id INT,
+    parent_id CHAR(31),
     file_name varchar(31),
     share_password CHAR(9),
     user_id INT,

@@ -14,66 +14,76 @@
  *   limitations under the License.
  */
 
-
- /**
- *   @Title: Dir.java
- *   @Description: TODO
- *   @author cc01cc
- *   @date 2021-11-21 
- */  
+/**
+*   @Title: Dir.java
+*   @Description: TODO
+*   @author cc01cc
+*   @date 2021-11-21 
+*/
 
 package com.cc01cc.spring.pojo;
 
 /**
  * @author cc01cc
- * @date 2021-11-21 
+ * @date 2021-11-21
  * @Description: TODO
  * 
  */
 public class Dir {
-    
-    private int dirId;
-    private int dirParentId;
+
+    private String dirId;
+    private String dirParentId;
     private String dirName;
+
     /**
      * @return the dirId
      */
-    public int getDirId() {
+    public String getDirId() {
         return dirId;
     }
+
     /**
      * @param dirId the dirId to set
      */
-    public void setDirId(int dirId) {
+    public void setDirId(String dirId) {
         this.dirId = dirId;
     }
+
     /**
      * @return the dirParentId
      */
-    public int getDirParentId() {
+    public String getDirParentId() {
         return dirParentId;
     }
+
     /**
      * @param dirParentId the dirParentId to set
      */
-    public void setDirParentId(int dirParentId) {
+    public void setDirParentId(String dirParentId) {
         this.dirParentId = dirParentId;
     }
+
     /**
      * @return the dirName
      */
     public String getDirName() {
         return dirName;
     }
+
     /**
      * @param dirName the dirName to set
      */
     public void setDirName(String dirName) {
         this.dirName = dirName;
     }
-    /** 
-     * <p>Title: toString</p>
-     * <p>Description: </p>
+
+    /**
+     * <p>
+     * Title: toString
+     * </p>
+     * <p>
+     * Description:
+     * </p>
      * @return
      * @see java.lang.Object#toString()
      *
@@ -83,7 +93,5 @@ public class Dir {
         return "Dir [dirId=" + dirId + ", dirParentId=" + dirParentId + ", dirName=" + dirName
                 + "]";
     }
-    
-    
 
 }
