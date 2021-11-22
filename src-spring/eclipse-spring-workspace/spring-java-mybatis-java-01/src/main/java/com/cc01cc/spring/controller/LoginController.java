@@ -23,6 +23,8 @@
 
 package com.cc01cc.spring.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +32,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.cc01cc.spring.pojo.File;
 import com.cc01cc.spring.pojo.User;
 import com.cc01cc.spring.service.LoginService;
 
@@ -87,6 +88,7 @@ public class LoginController {
              * TODO ?model.addAttribute() 可以向视图层传入参数，那如果既想给 model 添加键值对，
              * 又想向视图层传递参数，是否会造成冲突
              */
+            HttpSession session,
             @ModelAttribute("user_key") User user01,
             Model model) {
         // System.out.println("file_key : " + model.getAttribute("file_key"));
@@ -95,7 +97,8 @@ public class LoginController {
         // System.out.println("user_key : " + model.getAttribute("user_key"));
 
         if (loginService.checkIdentity(user01)) {
-            return "user-page";
+            session.setAttribute("userId", user01.getUserId());
+            return "redirect:/home";
         } else {
             model.addAttribute("login_error", "账户或密码错误，请重新输入");
             /*
@@ -103,7 +106,7 @@ public class LoginController {
              * 所以此处需要手动插入 "user_view" 键值对
              */
             model.addAttribute("user_view", new User());
-            return "login";
+            return "redirect:/login";
         }
     }
 }

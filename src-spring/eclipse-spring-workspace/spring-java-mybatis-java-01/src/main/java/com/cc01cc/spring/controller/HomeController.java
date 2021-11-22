@@ -14,45 +14,59 @@
  *   limitations under the License.
  */
 
-
- /**
- *   @Title: UploadFileController.java
- *   @Description: TODO
- *   @author cc01cc
- *   @date 2021-11-22 
- */  
+/**
+*   @Title: HomeController.java
+*   @Description: TODO
+*   @author cc01cc
+*   @date 2021-11-22 
+*/
 
 package com.cc01cc.spring.controller;
 
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc01cc.spring.pojo.File;
 
 /**
  * @author cc01cc
- * @date 2021-11-22 
+ * @date 2021-11-22
  * @Description: TODO
  * 
  */
+// TODO 本来想要将 Mapping 写在类上，但这样要如何返回 home 视图
+// TODO 再类上使用 GetMapping 报错，这是为什么
+// @RequestMapping("/home")
 @Controller
-public class UploadFileController {
+public class HomeController extends BaseController{
 
     // 定义从前端传回，后端计算的md5码
-    private String md5FromFont;
-    private String md5FromEnd;
-    
+    private String md5FromFront = null;
+    private String md5FromEnd = null;
+
     // 定义需要处理的文件
-    File fileTodo;
+    File fileTodo = new File();
+
+    
+    
+    @GetMapping("/home")
+    public String returnHome() {
+        return "home";
+    }
     
     @ResponseBody
     @PostMapping("/upload-md5-front")
-    public String uploadMd5Front(HttpServletResponse response) {
-        System.out.println(response);
-        response.setStatus(200);
-       return "true";
+    public String uploadMd5Front(@RequestBody Map<String,String> md5) {
+        md5FromFront = md5.get("md5");
+        System.out.println(md5FromFront);
+        
+//        System.out.println(md5.get("md5"));
+        return "true";
     }
+
 }
