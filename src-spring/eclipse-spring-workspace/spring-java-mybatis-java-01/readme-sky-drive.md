@@ -9,6 +9,15 @@
 ## 文件结构
 
 1. 每个页面视图对应一个 `Controller`
+2. HttpSession 中存储 userId, parentId
+
+## 知识点
+
+1. 前后端 json 数据交互（jackson-databind）
+2. 文件传输
+3. 前端 md5
+4. 后端 md5
+5. 用户权限认证
 
 ## 数据逻辑结构设计
 

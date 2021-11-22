@@ -25,11 +25,18 @@ package com.cc01cc.spring.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cc01cc.spring.pojo.File;
 
@@ -43,7 +50,7 @@ import com.cc01cc.spring.pojo.File;
 // TODO 再类上使用 GetMapping 报错，这是为什么
 // @RequestMapping("/home")
 @Controller
-public class HomeController extends BaseController{
+public class HomeController extends BaseController {
 
     // 定义从前端传回，后端计算的md5码
     private String md5FromFront = null;
@@ -52,21 +59,45 @@ public class HomeController extends BaseController{
     // 定义需要处理的文件
     File fileTodo = new File();
 
-    
-    
     @GetMapping("/home")
     public String returnHome() {
         return "home";
     }
-    
+
+    // 血泪史：一定要导入 jackson-databind 包，否则无法解析 json 数据
+    // 没有导入，并不会有任何报错和提示，只是无法接收参数
     @ResponseBody
     @PostMapping("/upload-md5-front")
-    public String uploadMd5Front(@RequestBody Map<String,String> md5) {
+    public String uploadMd5Front(@RequestBody Map<String, String> md5) {
         md5FromFront = md5.get("md5");
         System.out.println(md5FromFront);
-        
-//        System.out.println(md5.get("md5"));
+
+        // System.out.println(md5.get("md5"));
         return "true";
     }
 
+      
+    // 吸取上边的经验，乖乖导入 commons-fileupload 包（不想试不导入的情况了，累了）
+    @PostMapping("/file_upload")
+    public String fileUpload(
+            HttpServletRequest request,
+            HttpSession session,
+            // @RequestParam 内的值与 前端标签的 name 属性一致
+            @RequestParam("file-context") MultipartFile fileContext,
+            Model model
+            ) {
+                if(!fileContext.isEmpty()) {
+                    String md5FromEnd = DigestUtils.md5DigestAsHex(fileContext.getBytes());
+                    if(md5FromEnd!=md5FromFront) {
+                        model.addAttribute("file_upload_info", "文件传输失败");
+                        return "home";
+                    }
+                    String path = "T:\\zeolab\temp";
+                    fileTodo.setFileName(fileContext.getOriginalFilename());
+//                    fileTodo.setFileId(0);
+                    fileTodo.setFileMD5(path)
+                    
+                }
+            return "home";
+    }
 }
