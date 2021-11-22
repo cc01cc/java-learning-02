@@ -26,6 +26,7 @@
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/spark-md5/3.0.0/spark-md5.min.js"></script>
     <script>
+        // Thank satazor, src changed from https://github.com/satazor/js-spark-md5
         var file_context_md5 = document.getElementById('file-content-md5');
         document.getElementById('input-file-context-01').addEventListener('change', function () {
             file_context_md5.innerHTML = 'Hmm..Reading file...'
@@ -51,7 +52,7 @@
                     console.info('computed hash', md5);  // Compute hash
                     file_context_md5.innerHTML = md5;
 
-
+                    // Thank mingruqi, src changed from https://www.cnblogs.com/Im-Victor/p/9405974.html
                     var httpRequest = new XMLHttpRequest();
                     // 建立 post 连接
                     httpRequest.open('POST', '/upload_md5_front', true);
@@ -111,9 +112,6 @@
 
         //     return form_md5_post;
         // }
-
-
-
 
     </script>
 </body>
