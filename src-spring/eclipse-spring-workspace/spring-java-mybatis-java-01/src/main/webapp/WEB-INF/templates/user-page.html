@@ -26,7 +26,7 @@
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/spark-md5/3.0.0/spark-md5.min.js"></script>
     <script>
-        var file_context_md5 = document.getElementById('file-content-md5')
+        var file_context_md5 = document.getElementById('file-content-md5');
         document.getElementById('input-file-context-01').addEventListener('change', function () {
             file_context_md5.innerHTML = 'Hmm..Reading file...'
             var blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice,
@@ -51,7 +51,29 @@
                     console.info('computed hash', md5);  // Compute hash
                     file_context_md5.innerHTML = md5;
 
-                    document.getElementById("button-file-upload-01").disabled = false;
+
+                    var httpRequest = new XMLHttpRequest();
+                    // 建立 post 连接
+                    httpRequest.open('POST', '/upload_md5_front', true);
+                    //设置请求头 application/x-www-form-urlencoded 表示表单
+                    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    //发送md5请求
+                    httpRequest.send(md5);
+
+                    // 获取数据后的处理程序
+                    httpRequest.onreadystatechange = function upload_md5() {
+                        //验证请求
+                        if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                            //获取到服务端返回的数据
+                            var json = httpRequest.responseText;
+                            console.log(json);
+                            document.getElementById("button-file-upload-01").disabled = false;
+                        } else {
+                            var json = httpRequest.responseText;
+                            console.log(json);
+                            file_context_md5.innerHTML = 'oops, something went wrong.'
+                        }
+                    };
                 }
             };
 
@@ -72,23 +94,27 @@
 
     </script>
     <script>
-        function upload_md5(file_md5){
-            var form_md5_post = document.createElement("form");
-            form_md5_post.action = URL;
-            form_md5_post.method = "post";
-            form_md5_post.style.display = "none";
- 
-            for (var x in file_md5) {
-                var opt = document.createElement("textarea");
-                opt.name = x;
-                opt.value = file_md5[x];
-                form_md5_post.appendChild(opt);
-            }
-            document.body.appendChild(form_md5_post);
-            form_md5_post.submit();
- 
-            return form_md5_post;
-        }
+        // function upload_md5(file_md5){
+        //     var form_md5_post = document.createElement("form");
+        //     form_md5_post.action = URL;
+        //     form_md5_post.method = "post";
+        //     form_md5_post.style.display = "none";
+
+        //     for (var x in file_md5) {
+        //         var opt = document.createElement("textarea");
+        //         opt.name = x;
+        //         opt.value = file_md5[x];
+        //         form_md5_post.appendChild(opt);
+        //     }
+        //     document.body.appendChild(form_md5_post);
+        //     form_md5_post.submit();
+
+        //     return form_md5_post;
+        // }
+
+
+
+
     </script>
 </body>
 
