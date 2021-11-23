@@ -52,8 +52,8 @@ public interface BaseMapper {
      * @throws
      */
     public File findFileByMD5(String md5);
-    public Dir findDirByDirId(String dirId);
     public File findFileByFileId(String fileId);
+    public Dir findDirByDirId(String dirId);
     public File findFileByFileSharePassword(String fileSharePassword);
     
     // 删除没有用户需要的文件时需要

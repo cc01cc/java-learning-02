@@ -89,6 +89,7 @@
         where pk_user_id=#{userId}
 
     </select>
+    
 
 
     <insert id="saveFileLocal" parameterType="com.cc01cc.spring.pojo.File">
@@ -116,12 +117,29 @@
     </insert>
 
 
+
     <select id="findFileByMD5" parameterType="String" resultMap="fileLocalResultMap">
 
         select *
         from file_local
         where pk_file_md5 = #{md5}
 
+    </select>
+    
+	      <select id="findFileByFileId" parameterType = "String" resultMap = "fileUserResultMap">
+	      
+	      select *
+	      from file_user
+	      where pk_file_id = #{fileId}
+	      
+	      </select>
+    
+    <select id="findFileByParentId" parameterType = "String" resultMap = "fileUserResultMap">
+        
+        select *
+        from file_user
+        where parent_id = #{fileParentId}
+        
     </select>
 
     <update id="updateFileUserLink" parameterType="com.cc01cc.spring.pojo.File">
@@ -131,4 +149,18 @@
         where pk_file_md5 = #{fileMD5}
 
     </update>
+    
+    <delete id="deleteFileByFileId" parameterType = "String">
+    
+        delete from file_user
+        where pk_file_id = #{fileId}
+    
+    </delete>
+    
+    <delete id="deleteFileByFileMD5" parameterType = "String">
+    
+        delete from file_local
+        where pk_file_md5 = #{fileMD5}
+    
+    </delete>
 </mapper>

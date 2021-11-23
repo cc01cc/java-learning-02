@@ -16,13 +16,15 @@
 
 
  /**
- *   @Title: SaveFileService.java
+ *   @Title: ProcessFileService.java
  *   @Description: TODO
  *   @author cc01cc
  *   @date 2021-11-23 
  */  
 
 package com.cc01cc.spring.service;
+
+import java.util.List;
 
 import com.cc01cc.spring.pojo.File;
 
@@ -32,7 +34,13 @@ import com.cc01cc.spring.pojo.File;
  * @Description: TODO
  * 
  */
-public interface SaveFileService {
+public interface ProcessFileService {
 
     public boolean saveFile(File fileTodo);
+    
+    public File findFileById(String fileId);
+    
+    public boolean deleteFileById(String fileId);
+    
+    public List<File> listFileByParentId(String parentId);
 }

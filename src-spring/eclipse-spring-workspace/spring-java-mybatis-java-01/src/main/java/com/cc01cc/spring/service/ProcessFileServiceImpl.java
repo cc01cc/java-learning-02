@@ -16,13 +16,15 @@
 
 
  /**
- *   @Title: SaveFileServiceImpl.java
+ *   @Title: ProcessFileServiceImpl.java
  *   @Description: TODO
  *   @author cc01cc
  *   @date 2021-11-23 
  */  
 
 package com.cc01cc.spring.service;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ import com.cc01cc.spring.pojo.File;
  * 
  */
 @Service
-public class SaveFileServiceImpl implements SaveFileService{
+public class ProcessFileServiceImpl implements ProcessFileService{
 
     @Autowired
     BaseMapper baseMapper;
@@ -53,6 +55,56 @@ public class SaveFileServiceImpl implements SaveFileService{
         return false;
     }
     
+    @Override
+    public File findFileById(String fileId) {
+        
+        File file = baseMapper.findFileByFileId(fileId);
+        File fileLocal = baseMapper.findFileByMD5(file.getFileMD5());
+        file.setFileLocalStore(fileLocal.getFileLocalStore());
+        return file;
+    }
+    
+    @Override
+    public boolean deleteFileById(String fileId) {
+        File file = baseMapper.findFileByFileId(fileId);
+        baseMapper.deleteFileByFileId(fileId);
+        
+        file.setFileUserLink(baseMapper.findFileByMD5(file.getFileMD5()).getFileUserLink());
+        System.out.println("deleteFile : " + file);
+        int fileUserLink = file.getFileUserLink() - 1;
+        if(fileUserLink==0) {
+            String filePath = baseMapper.findFileByMD5(file.getFileMD5()).getFileLocalStore();
+            System.out.println("deleteFile - filePath : " + filePath);
+            java.io.File fileDelete = new java.io.File(filePath);
+            if(fileDelete.delete())
+            {
+                baseMapper.deleteFileByFileMD5(file.getFileMD5());
+                return true;
+            }
+        }else {
+            file.setFileUserLink(fileUserLink);
+            baseMapper.updateFileUserLink(file);
+            return true;
+        }
+        return false;
+    };
+    
+    /** 
+     * <p>Title: listFileByParentId</p>
+     * <p>Description: </p>
+     * @param parentId
+     * @return
+     * @see com.cc01cc.spring.service.ProcessFileService#listFileByParentId(java.lang.String)
+     *
+     */
+    @Override
+    public List<File> listFileByParentId(String parentId) {
+        
+        List<File> fileList = baseMapper.findFileByParentId(parentId);
+        
+        return fileList;
+    }
+
     public boolean existFile(String md5) {
         File file = null;
                 file = baseMapper.findFileByMD5(md5);

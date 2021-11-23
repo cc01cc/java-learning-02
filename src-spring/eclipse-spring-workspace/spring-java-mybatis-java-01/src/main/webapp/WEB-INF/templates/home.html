@@ -12,7 +12,7 @@
     <h1>用户</h1>
     <div>
         <form th:action="@{/file_upload}" method="post" id="file-upload-form" enctype="multipart/form-data">
-        <!-- <form> -->
+            <!-- <form> -->
             <input type="file" name="file-context" id="input-file-context-01" class="form-component"
                 th:placeholder="请选择本地文件">
             <button type="submit" id="button-file-upload-01" disabled="disabled">上传文件</button>
@@ -24,6 +24,66 @@
             <input type="text" name="dir-name" id="input-dir-name-01" class="form-component" th:placeholder="请输入目录名称">
             <button type="submit" id="button-dir-make-01">新建目录</button>
         </form>
+
+
+        <!-- 文件显示区域 -->
+        <div class="file-list">
+
+            <div class="file-list-head">
+                <h3>文件列表</h3>
+            </div>
+
+            <div class="file-list-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>序列</td>
+                            <td>文件名</td>
+                            <td>分享码</td>
+                            <td>下载</td>
+                            <td>删除</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="file,fileStat:${file_list}">
+                            <td><span th:text="${fileStat.count}"></span></td>
+                            <td><span th:text="${file.fileName}"></span></td>
+                            <td><span th:text="${file.fileSharePassword}"></span></td>
+                            <td><a th:href="@{/file-download(file_context_id=${file.fileId})}"><span th:text="下载"></span></a></td>
+                            <td><a th:href="@{/file-delete(file_context_id=${file.fileId})}"><span th:text="删除"></span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- 目录显示区域 -->
+        <div class="dir-list">
+
+            <div class="dir-list-head">
+                <h3>目录列表</h3>
+            </div>
+
+            <div class="dir-list-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>序列</td>
+                            <td>目录</td>
+                            <td>删除</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="dir,dirStat:${dir_list}">
+                            <td><span th:text="${dirStat.count}"></span></td>
+                            <td><span th:text="${dir.dirName}"></span></td>
+                            <td><a th:href="@{/dir-delete(dir_context_md5=${dir.dirId})}"><span th:text="#{删除}"></span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/spark-md5/3.0.0/spark-md5.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -54,19 +114,19 @@
                     console.info('computed hash', md5);  // Compute hash
                     file_context_md5.innerHTML = md5;
 
-                    
+
                     $.ajax({
-                        url:'./home/upload-md5-front',
-                        dataType:"json",
-                        type:'post',
-                        contentType : 'application/json',
-                        data: JSON.stringify({"md5":md5}),
-                        success:function(data){
-                            if(data!=null){
+                        url: './home/upload-md5-front',
+                        dataType: "json",
+                        type: 'post',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ "md5": md5 }),
+                        success: function (data) {
+                            if (data != null) {
                                 document.getElementById("button-file-upload-01").disabled = false;
                             }
                         },
-                        error:function(){
+                        error: function () {
                             file_context_md5.innerHTML = 'oops, something went wrong.'
                         }
                     })

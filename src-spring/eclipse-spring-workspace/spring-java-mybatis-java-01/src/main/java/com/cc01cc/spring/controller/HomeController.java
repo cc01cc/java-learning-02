@@ -24,24 +24,31 @@
 package com.cc01cc.spring.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cc01cc.spring.pojo.Dir;
 import com.cc01cc.spring.pojo.File;
-import com.cc01cc.spring.service.SaveFileService;
+import com.cc01cc.spring.service.ProcessDirService;
+import com.cc01cc.spring.service.ProcessFileService;
 import com.cc01cc.spring.util.IdMakerUtil;
 
 /**
@@ -56,6 +63,12 @@ import com.cc01cc.spring.util.IdMakerUtil;
 @Controller
 public class HomeController extends BaseController {
 
+    @Autowired
+    ProcessFileService processFileService;
+
+    @Autowired
+    ProcessDirService processDirService;
+
     // 定义从前端传回，后端计算的md5码
     private String md5FromFront = null;
     private String md5FromEnd = null;
@@ -63,8 +76,20 @@ public class HomeController extends BaseController {
     // 定义需要处理的文件
     File fileTodo = new File();
 
-    @GetMapping("/home")
-    public String returnHome() {
+    @RequestMapping("/home")
+    public String returnHome(
+            
+            HttpSession session,
+            Model model
+            
+            ) {
+        
+        List<File> fileList = processFileService.listFileByParentId(session.getAttribute("parent_dir_id").toString());
+        
+        List<Dir> dirList = processDirService.listDirByParentId(session.getAttribute("parent_dir_id").toString());
+        
+        model.addAttribute("file_list",fileList);
+        model.addAttribute("dir_list", dirList);
         return "home";
     }
 
@@ -80,20 +105,22 @@ public class HomeController extends BaseController {
         return "true";
     }
 
-    @Autowired
-    SaveFileService saveFileService;
-
     // 吸取上边的经验，乖乖导入 commons-fileupload 包（不想试不导入的情况了，累了）
     @PostMapping("/file_upload")
     public String fileUpload(
+
             HttpServletRequest request,
             HttpSession session,
             // @RequestParam 内的值与 前端标签的 name 属性一致
             @RequestParam("file-context") MultipartFile fileContext,
-            Model model) throws IOException {
+            Model model
+
+    ) throws IOException {
+
         if (!fileContext.isEmpty()) {
             md5FromEnd = DigestUtils.md5DigestAsHex(fileContext.getBytes());
             System.out.println("md5FromEnd : " + md5FromEnd);
+
             if (!md5FromEnd.equals(md5FromFront)) {
                 model.addAttribute("file_upload_info", "文件传输失败");
                 return "home";
@@ -101,11 +128,13 @@ public class HomeController extends BaseController {
 
             String path = "T:" + java.io.File.separator + "zeolab" + java.io.File.separator
                     + "temp";
+
+            java.io.File filePath = new java.io.File(
+                    path + java.io.File.separator + fileTodo.getFileMD5());
+
             fileTodo.setFileName(fileContext.getOriginalFilename());
             fileTodo.setFileId(IdMakerUtil.makeId(session.getAttribute("user_id").toString()));
             fileTodo.setFileMD5(md5FromEnd);
-            java.io.File filePath = new java.io.File(
-                    path + java.io.File.separator + fileTodo.getFileMD5());
             // 之前还考虑是不是需要添加文件后缀，但是感觉不用，下载文件时，会将文件名重新赋值
             fileTodo.setFileLocalStore(filePath.getPath());
             // TODO addFileUserLink(fileTodo.getFileMD5)
@@ -114,12 +143,57 @@ public class HomeController extends BaseController {
             // TODO 这儿 fileuserid 类型冲突了，设计时失误
             fileTodo.setFileUserId(Integer.parseInt(session.getAttribute("user_id").toString()));
             System.out.println("Todo" + fileTodo);
+
             fileContext.transferTo(filePath);
-            saveFileService.saveFile(fileTodo);
-            model.addAttribute("file_upload_info", "文件传输成功，请刷新页面");
+            processFileService.saveFile(fileTodo);
+            model.addAttribute("file_upload_info", "文件传输成功");
+
         } else {
             model.addAttribute("file_upload_info", "请选择文件");
         }
-        return "home";
+        return "forward:/home";
     }
+
+    @RequestMapping("/file-download")
+    public ResponseEntity<byte[]> downloadFile(
+
+            HttpServletRequest request,
+            @RequestParam("file_context_id") String fileId,
+            @RequestHeader("User-Agent") String userAgent
+
+    ) throws IOException {
+
+        File   file     = processFileService.findFileById(fileId);
+        String filePath = file.getFileLocalStore();
+
+        java.io.File               fileDownload = new java.io.File(filePath);
+        ResponseEntity.BodyBuilder builder      = ResponseEntity.ok();
+        builder.contentLength(fileDownload.length());
+        builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
+        // String fileName = URLEncoder.encode(file.getFileName(), "UTF-8");
+        if (userAgent.indexOf("MSIE") > 0) {
+            builder.header("Content-Disposition", "attachment; filename=" + file.getFileName());
+        } else {
+            builder.header("Content-Disposition",
+                    "attachment; filename* = URF-8''" + file.getFileName());
+        }
+        return builder.body(FileUtils.readFileToByteArray(fileDownload));
+    }
+
+    @RequestMapping("/file-delete")
+    public String deleteFile(
+            HttpServletRequest request,
+            @RequestParam("file_context_id") String fileId) {
+        processFileService.deleteFileById(fileId);
+        return "forward:/home";
+    }
+
+    @RequestMapping("/dir-delete")
+    public String deleteDir(
+            HttpServletRequest request,
+            @RequestParam("dir_context_id") String dirId) {
+        processDirService.deleteDirById(dirId);
+        return "forward:/home";
+    }
+
 }
