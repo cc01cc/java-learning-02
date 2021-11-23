@@ -40,6 +40,22 @@ public class File {
     private String fileId;
     private String fileParentId;
 
+    private int fileUserId;
+    
+    /**
+     * @return the fileUserId
+     */
+    public int getFileUserId() {
+        return fileUserId;
+    }
+
+    /**
+     * @param fileUserId the fileUserId to set
+     */
+    public void setFileUserId(int fileUserId) {
+        this.fileUserId = fileUserId;
+    }
+
     /**
      * @return the fileUserLink
      */
@@ -138,13 +154,9 @@ public class File {
         this.fileParentId = fileParentId;
     }
 
-    /**
-     * <p>
-     * Title: toString
-     * </p>
-     * <p>
-     * Description:
-     * </p>
+    /** 
+     * <p>Title: toString</p>
+     * <p>Description: </p>
      * @return
      * @see java.lang.Object#toString()
      *
@@ -153,7 +165,8 @@ public class File {
     public String toString() {
         return "File [fileUserLink=" + fileUserLink + ", fileMD5=" + fileMD5 + ", fileLocalStore="
                 + fileLocalStore + ", fileName=" + fileName + ", fileSharePassword="
-                + fileSharePassword + ", fileId=" + fileId + ", fileParentId=" + fileParentId + "]";
+                + fileSharePassword + ", fileId=" + fileId + ", fileParentId=" + fileParentId
+                + ", fileUserId=" + fileUserId + "]";
     }
 
 }

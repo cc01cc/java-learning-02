@@ -34,6 +34,7 @@ public class Dir {
     private String dirId;
     private String dirParentId;
     private String dirName;
+    private int dirUserId;
 
     /**
      * @return the dirId
@@ -77,13 +78,9 @@ public class Dir {
         this.dirName = dirName;
     }
 
-    /**
-     * <p>
-     * Title: toString
-     * </p>
-     * <p>
-     * Description:
-     * </p>
+    /** 
+     * <p>Title: toString</p>
+     * <p>Description: </p>
      * @return
      * @see java.lang.Object#toString()
      *
@@ -91,7 +88,7 @@ public class Dir {
     @Override
     public String toString() {
         return "Dir [dirId=" + dirId + ", dirParentId=" + dirParentId + ", dirName=" + dirName
-                + "]";
+                + ", dirUserId=" + dirUserId + "]";
     }
 
 }

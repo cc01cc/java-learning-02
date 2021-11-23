@@ -5,74 +5,130 @@
 <!--命名空间：可以通过调用cn.edu.zjweu.spring.dao.BaseDao.addUser来调用addUser方法 -->
 <mapper namespace="com.cc01cc.spring.mapper.BaseMapper">
 
-	<!-- Buser findByIdAndPassword(Integer id, String password); -->
-	<select id="findByIdAndPassword" parameterType="User" resultMap="userResultMap">
 
-		select pk_user_id,
-		user_password
-		from user_account
-		where
-		pk_user_id=#{userId} and user_password=#{userPassword}
+    <!-- 手动配置 resultMap 映射，id 为该映射标识符，type 为类(别名，使用@Alias) -->
+    <!-- 手动配置返回值使用 resultMap 参数，而不是 resultType -->
+    <resultMap type="com.cc01cc.spring.pojo.User" id="userResultMap">
 
-	</select>
+        <!-- id 和 result 都创建映射，但 id 标记的属性可以作为对象的标识符，提高整体性能 -->
 
+        <id property="userId" column="pk_user_id" jdbcType="INTEGER" />
 
-	<insert id="saveUser" parameterType="User">
+        <result property="userPassword" column="user_password" jdbcType="VARCHAR" />
 
-		insert into user_account(pk_user_id,user_password)
-		value
-		(#{userId},#{userPassword})
+        <!-- 可以为空值的参数，必须指定 jabcType 值，避免 sql 表更改的麻烦，就所有映射添加 jdbcType -->
+        <result property="userName" column="user_name" jdbcType="VARCHAR" />
 
-	</insert>
+    </resultMap>
 
+    <!-- 因为 type 的限制，所以数据库的表和 pojo 实体类必须包含表，虽然有更加高级的映射，但先挑简单的 -->
+    <resultMap type="com.cc01cc.spring.pojo.File" id="fileLocalResultMap">
 
-	<!-- int updatePassword(Integer id, String passwd); -->
-	<!-- <update id="updatePasswordById" parameterType="Buser"> update busertable set bpwd=#{bpwd} where 
-		id=#{id} </update> -->
+        <id property="fileMD5" column="pk_file_md5" jdbcType="CHAR" />
 
+        <result property="fileUserLink" column="file_user_link" jdbcType="INTEGER" />
 
-	<!-- <update id="updatePasswordByEmail" parameterType="Buser"> update busertable set bpwd=#{bpwd} where 
-		bemail=#{bemail} </update> -->
+        <result property="fileLocalStore" column="file_local_store" jdbcType="VARCHAR" />
+
+    </resultMap>
 
 
-	<!-- Buser findByEmailAndPassword(String email, String password); -->
-	<!-- <select id="findByEmailAndPassword" parameterType="Buser" resultType="Buser"> select id,bemail 
-		from busertable where bemail=#{bemail} and bpwd=#{bpwd} </select> -->
+
+    <resultMap type="com.cc01cc.spring.pojo.File" id="fileUserResultMap">
+
+        <id property="fileId" column="pk_file_id" jdbcType="CHAR" />
+
+        <result property="fileMD5" column="file_md5" jdbcType="CHAR" />
+
+        <result property="fileParentId" column="parent_id" jdbcType="CHAR" />
+
+        <result property="fileName" column="file_name" jdbcType="VARCHAR" />
+
+        <result property="fileSharePassword" column="share_password" jdbcType="VARCHAR" />
+
+        <result property="fileUserId" column="user_id" jdbcType="INTEGER" />
+
+    </resultMap>
+
+    <resultMap type="com.cc01cc.spring.pojo.Dir" id="dirUserResultMap">
+
+        <id property="dirId" column="pk_dir_id" jdbcType="CHAR" />
+
+        <result property="dirParentId" column="parent_id" jdbcType="CHAR" />
+
+        <result property="dirName" column="dir_name" jdbcType="VARCHAR" />
+
+        <result property="dirUserId" column="user_id" jdbcType="INTEGER" />
+
+    </resultMap>
+
+    <!-- #{}内使用的是pojo实体类的属性名,其余为数据库的字段名,需要一一对应 -->
+    <!-- Buser findByIdAndPassword(Integer id, String password); -->
+    <select id="findByIdAndPassword" parameterType="User" resultMap="userResultMap">
+
+        select pk_user_id, user_password
+        from user_account
+        where pk_user_id=#{userId} and user_password=#{userPassword}
+
+    </select>
 
 
-	<!-- Buser findByEmail(String email); -->
-	<!-- <select id="findByEmail" parameterType="String" resultType="Buser"> select bemail from busertable 
-		where bemail=#{bemail} </select> -->
+    <insert id="saveUser" parameterType="User">
 
-	<!-- 手动配置 resultMap 映射，id 为该映射标识符，type 为类(别名，使用@Alias) -->
-	<!-- 手动配置返回值使用 resultMap 参数，而不是 resultType -->
-	<resultMap type="com.cc01cc.spring.pojo.User" id="userResultMap">
-	
-		<!-- id 和 result 都创建映射，但 id 标记的属性可以作为对象的标识符，提高整体性能 -->
-		
-		<id property="userId" column="pk_user_id" jdbcType="INTEGER" />
-		
-		<result property="userPassword" column="user_password" jdbcType="VARCHAR" />
-		
-		<!-- 可以为空值的参数，必须指定 jabcType 值，避免 sql 表更改的麻烦，就所有映射添加 jdbcType -->
-		<result property="userName" column="user_name" jdbcType="VARCHAR" />
-		
-	</resultMap>
+        insert into
+        user_account(pk_user_id,user_password)
+        value
+        (#{userId},#{userPassword})
 
-	<select id="findById" parameterType="String" resultMap="userResultMap">
-
-		select pk_user_id from user_account
-		where pk_user_id=#{userId}
-
-	</select>
+    </insert>
 
 
-	<!-- int deleteUser(Integer id, String password); -->
-	<!-- <delete id="deleteUserById" parameterType="Buser"> delete from busertable where id=#{id} and bpwd=#{bpwd} 
-		</delete> -->
+    <select id="findById" parameterType="String" resultMap="userResultMap">
+
+        select pk_user_id from user_account
+        where pk_user_id=#{userId}
+
+    </select>
 
 
-	<!-- <delete id="deleteUserByEmail" parameterType="Buser"> delete from busertable where bemail=#{bemail} 
-		and bpwd=#{bpwd} </delete> -->
+    <insert id="saveFileLocal" parameterType="com.cc01cc.spring.pojo.File">
 
+        insert into file_local(pk_file_md5, file_user_link, file_local_store)
+        values (#{fileMD5},
+        #{fileUserLink}, #{fileLocalStore})
+
+    </insert>
+
+    <insert id="saveFileUser" parameterType="com.cc01cc.spring.pojo.File">
+
+        insert into file_user(pk_file_id, file_md5, parent_id, file_name, share_password, user_id)
+        values (#{fileId}, #{fileMD5},
+        #{fileParentId}, #{fileName}, #{fileSharePassword}, #{fileUserId})
+
+    </insert>
+
+    <insert id="saveDirUser" parameterType="com.cc01cc.spring.pojo.Dir">
+
+        insert into dir_user(pk_dir_id, parent_id, dir_name, user_id)
+        values (#{dirId}, #{dirParentId},
+        #{dirName}, #{dirUserId})
+
+    </insert>
+
+
+    <select id="findFileByMD5" parameterType="String" resultMap="fileLocalResultMap">
+
+        select *
+        from file_local
+        where pk_file_md5 = #{md5}
+
+    </select>
+
+    <update id="updateFileUserLink" parameterType="com.cc01cc.spring.pojo.File">
+
+        update file_local
+        set file_user_link = #{fileUserLink}
+        where pk_file_md5 = #{fileMD5}
+
+    </update>
 </mapper>

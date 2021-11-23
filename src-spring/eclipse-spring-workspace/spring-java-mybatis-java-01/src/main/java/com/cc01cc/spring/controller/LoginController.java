@@ -99,8 +99,8 @@ public class LoginController {
         if (loginService.checkIdentity(user01)) {
             // 将userId添加到session中
             session.setAttribute("user_id", user01.getUserId());
-            // 设置当前目录为 1
-            session.setAttribute("parent_dir_id", "1");
+            // 设置当前目录为 user01.getUserId()
+            session.setAttribute("parent_dir_id", user01.getUserId());
             return "redirect:/home";
         } else {
             model.addAttribute("login_error", "账户或密码错误，请重新输入");

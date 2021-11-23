@@ -29,6 +29,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cc01cc.spring.pojo.File;
+import com.cc01cc.spring.service.SaveFileService;
 import com.cc01cc.spring.util.IdMakerUtil;
 
 /**
@@ -72,13 +74,15 @@ public class HomeController extends BaseController {
     @PostMapping("/home/upload-md5-front")
     public String uploadMd5Front(@RequestBody Map<String, String> md5) {
         md5FromFront = md5.get("md5");
-        System.out.println("md5FromFront : "+md5FromFront);
+        System.out.println("md5FromFront : " + md5FromFront);
 
         // System.out.println(md5.get("md5"));
         return "true";
     }
 
-      
+    @Autowired
+    SaveFileService saveFileService;
+
     // 吸取上边的经验，乖乖导入 commons-fileupload 包（不想试不导入的情况了，累了）
     @PostMapping("/file_upload")
     public String fileUpload(
@@ -86,32 +90,36 @@ public class HomeController extends BaseController {
             HttpSession session,
             // @RequestParam 内的值与 前端标签的 name 属性一致
             @RequestParam("file-context") MultipartFile fileContext,
-            Model model
-            ) throws IOException {
-                if(!fileContext.isEmpty()) {
-                    md5FromEnd = DigestUtils.md5DigestAsHex(fileContext.getBytes());
-                    System.out.println("md5FromEnd : "+md5FromEnd);
-                    if(!md5FromEnd.equals(md5FromFront)) {
-                        model.addAttribute("file_upload_info", "文件传输失败");
-                        return "home";
-                    }
-                    
-                    String path = "T:"+java.io.File.separator+"zeolab"+java.io.File.separator+"temp";
-                    fileTodo.setFileName(fileContext.getOriginalFilename());
-                    fileTodo.setFileId(IdMakerUtil.makeId(session.getAttribute("user_id").toString()));
-                    fileTodo.setFileMD5(md5FromEnd);
-                    java.io.File filePath = new java.io.File(path+java.io.File.separator+fileTodo.getFileMD5());
-//                    之前还考虑是不是需要添加文件后缀，但是感觉不用，下载文件时，会将文件名重新赋值
-                    fileTodo.setFileLocalStore(filePath.getPath());
-                    //TODO addFileUserLink(fileTodo.getFileMD5)
-                    fileTodo.setFileSharePassword(null);
-                    fileTodo.setFileParentId(session.getId());
-                    System.out.println("fileTodo"+fileTodo);
-                    model.addAttribute("file_upload_info", "文件传输成功，请刷新页面");
-                    fileContext.transferTo(filePath);
-                }else {
-                    model.addAttribute("file_upload_info", "请选择文件");
-                }
-            return "home";
+            Model model) throws IOException {
+        if (!fileContext.isEmpty()) {
+            md5FromEnd = DigestUtils.md5DigestAsHex(fileContext.getBytes());
+            System.out.println("md5FromEnd : " + md5FromEnd);
+            if (!md5FromEnd.equals(md5FromFront)) {
+                model.addAttribute("file_upload_info", "文件传输失败");
+                return "home";
+            }
+
+            String path = "T:" + java.io.File.separator + "zeolab" + java.io.File.separator
+                    + "temp";
+            fileTodo.setFileName(fileContext.getOriginalFilename());
+            fileTodo.setFileId(IdMakerUtil.makeId(session.getAttribute("user_id").toString()));
+            fileTodo.setFileMD5(md5FromEnd);
+            java.io.File filePath = new java.io.File(
+                    path + java.io.File.separator + fileTodo.getFileMD5());
+            // 之前还考虑是不是需要添加文件后缀，但是感觉不用，下载文件时，会将文件名重新赋值
+            fileTodo.setFileLocalStore(filePath.getPath());
+            // TODO addFileUserLink(fileTodo.getFileMD5)
+            fileTodo.setFileSharePassword(null);
+            fileTodo.setFileParentId(session.getAttribute("parent_dir_id").toString());
+            // TODO 这儿 fileuserid 类型冲突了，设计时失误
+            fileTodo.setFileUserId(Integer.parseInt(session.getAttribute("user_id").toString()));
+            System.out.println("Todo" + fileTodo);
+            fileContext.transferTo(filePath);
+            saveFileService.saveFile(fileTodo);
+            model.addAttribute("file_upload_info", "文件传输成功，请刷新页面");
+        } else {
+            model.addAttribute("file_upload_info", "请选择文件");
+        }
+        return "home";
     }
 }
