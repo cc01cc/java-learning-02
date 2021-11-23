@@ -32,9 +32,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,7 +61,7 @@ public class HomeController extends BaseController {
     // 定义需要处理的文件
     File fileTodo = new File();
 
-    @RequestMapping("/home")
+    @GetMapping("/home")
     public String returnHome() {
         return "home";
     }
@@ -69,7 +69,7 @@ public class HomeController extends BaseController {
     // 血泪史：一定要导入 jackson-databind 包，否则无法解析 json 数据
     // 没有导入，并不会有任何报错和提示，只是无法接收参数
     @ResponseBody
-    @PostMapping("/upload-md5-front")
+    @PostMapping("/home/upload-md5-front")
     public String uploadMd5Front(@RequestBody Map<String, String> md5) {
         md5FromFront = md5.get("md5");
         System.out.println("md5FromFront : "+md5FromFront);
@@ -89,7 +89,7 @@ public class HomeController extends BaseController {
             Model model
             ) throws IOException {
                 if(!fileContext.isEmpty()) {
-                    String md5FromEnd = DigestUtils.md5DigestAsHex(fileContext.getBytes());
+                    md5FromEnd = DigestUtils.md5DigestAsHex(fileContext.getBytes());
                     System.out.println("md5FromEnd : "+md5FromEnd);
                     if(!md5FromEnd.equals(md5FromFront)) {
                         model.addAttribute("file_upload_info", "文件传输失败");
