@@ -73,4 +73,6 @@ public interface ProcessDirService {
      */
     List<Dir> getDirPathList(String dirId);
     
+    public boolean updateDirName(String dirId, String newDirId);
+    
 }

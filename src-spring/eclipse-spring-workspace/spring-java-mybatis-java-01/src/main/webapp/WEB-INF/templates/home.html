@@ -63,7 +63,7 @@
                             <td>
                                 <form th:action="@{/file_name_update(file_context_id=${file.fileId})}" method="post">
                                     <input type="text" name="new_file_name">
-                                    <button type="submit">改名</button>
+                                    <button type="submit">更名</button>
                                 </form>
                                 <!-- <input type="text" name="new_file_name">
                                 <a th:href="@{/file_name_update(file_context_id=${file.fileId})}">
@@ -98,6 +98,12 @@
                             <td><span th:text="${dirStat.count}"></span></td>
                             <td><a th:href="@{/dir_forward(dir_context_id=${dir.dirId})}"><span th:text="${dir.dirName}"></span></a></td>
                             <td><a th:href="@{/dir-delete(dir_context_id=${dir.dirId})}"><span th:text="删除"></span></a></td>
+                            <td>
+                                <form th:action="@{/dir_name_update(dir_context_id=${dir.dirId})}" method="post">
+                                    <input type="text" name="new_dir_name">
+                                    <button type="submit">更名</button>
+                                </form>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

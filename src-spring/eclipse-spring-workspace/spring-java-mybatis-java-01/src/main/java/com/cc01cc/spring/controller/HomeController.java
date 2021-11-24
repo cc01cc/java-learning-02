@@ -278,4 +278,16 @@ public class HomeController extends BaseController {
         return "forward:/home";
     }
 
+    
+    @RequestMapping("/dir_name_update")
+    public String updateDirName(
+            
+            HttpSession session,
+            @RequestParam("new_dir_name") String newDirName,
+            @RequestParam("dir_context_id") String dirId
+            ) {
+        
+        processDirService.updateDirName(dirId, newDirName);
+        return "forward:/home";
+    }
 }

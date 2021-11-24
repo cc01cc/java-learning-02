@@ -133,6 +133,7 @@ public class ProcessDirServiceImpl implements ProcessDirService {
         return dirList;
     }
 
+    // TODO 这个和 listDirPath 关联，但这个结构有些突兀，感觉可以优化或重构一下
     private Dir dir = new Dir();
 
     @Override
@@ -206,4 +207,14 @@ public class ProcessDirServiceImpl implements ProcessDirService {
     // System.out.println("dirPathList : "+dirPathList);
     // return dirPathList.add(dir);
     // }
+    
+    @Override
+    public boolean updateDirName(String dirId, String dirName) {
+        
+        Dir dir = baseMapper.findDirByDirId(dirId);
+        dir.setDirName(dirName);
+        boolean result = baseMapper.updateDirName(dir);
+        return result;
+        
+    }
 }
