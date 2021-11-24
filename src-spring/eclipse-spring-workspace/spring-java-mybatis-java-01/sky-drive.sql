@@ -63,9 +63,9 @@ select pk_user_id from user_account
 where pk_user_id = 1;
 
 select pk_user_id, user_password from user_account
-where pk_user_id=1 and user_password="abc";
+where pk_user_id=1 and user_password="123";
     
 
 insert into user_account(pk_user_id,user_password)
-value (1,"abc");
+value (1,"123");
 
