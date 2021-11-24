@@ -9,7 +9,7 @@
 <body>
     <h1>分享页</h1>
     <form th:action="@{/share/download-file-from-share}" method="post">
-        <input type="text" name="share_password"  th:placeholder="请输入提取码" th:text="${share_password_auto}">
+        <input type="text" name="share_password"  th:placeholder="请输入提取码" th:value="${share_password_auto}">
         <button type="submit">提取</button>
     </form>
 </body>

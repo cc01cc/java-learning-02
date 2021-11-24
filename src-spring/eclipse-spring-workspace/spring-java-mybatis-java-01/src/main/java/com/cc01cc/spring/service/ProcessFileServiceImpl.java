@@ -65,6 +65,22 @@ public class ProcessFileServiceImpl implements ProcessFileService{
         return false;
     }
 
+    /** 
+     * <p>Title: findFileBySharePassword</p>
+     * <p>Description: </p>
+     * @param fileSharePassword
+     * @return
+     * @see com.cc01cc.spring.service.ProcessFileService#findFileBySharePassword(java.lang.String)
+     *
+     */
+    @Override
+    public File findFileBySharePassword(String fileSharePassword) {
+        File file = baseMapper.findFileByFileSharePassword(fileSharePassword);
+        String fileMD5 = file.getFileMD5();
+        file.setFileLocalStore(baseMapper.findFileByMD5(fileMD5).getFileLocalStore());
+        return file;
+    }
+
     @Autowired
     BaseMapper baseMapper;
     

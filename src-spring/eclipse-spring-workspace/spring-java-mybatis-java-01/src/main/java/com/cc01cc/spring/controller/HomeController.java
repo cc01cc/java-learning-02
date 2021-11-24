@@ -314,7 +314,7 @@ public class HomeController extends BaseController {
             String fileSharePassword = processFileService.findFileById(fileId)
                     .getFileSharePassword();
             model.addAttribute("share_password_auto", fileSharePassword);
-            return "forward:/share/download-file-from-share";
+            return "forward:/share";
         }
 
     }

@@ -50,4 +50,6 @@ public interface ProcessFileService {
 
     // TODO 更新分享码，保留功能
     // public boolean updateFileSharePassword(String fileId);
+    
+    public File findFileBySharePassword(String fileSharePassword);
 }

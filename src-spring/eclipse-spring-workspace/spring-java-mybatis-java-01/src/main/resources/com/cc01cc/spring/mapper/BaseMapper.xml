@@ -151,7 +151,7 @@
     <select id = "findFileByFileSharePassword" parameterType = "String" resultMap = "fileUserResultMap">
 	      
 	      select *
-	      from dir_user
+	      from file_user
 	      where share_password = #{fileSharePassword}
 	      
     </select>
