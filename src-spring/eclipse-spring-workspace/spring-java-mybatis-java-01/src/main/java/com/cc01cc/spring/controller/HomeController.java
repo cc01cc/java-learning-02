@@ -184,7 +184,7 @@ public class HomeController extends BaseController {
 
         if (dirNameFromFront != null) {
             dir.setDirId(IdMakerUtil.makeId(session.getAttribute("user_id").toString()));
-//            servletRequest.getCharacterEncoding();
+            // servletRequest.getCharacterEncoding();
             servletRequest.setCharacterEncoding("UTF-8");
             System.out.println("dirNameFromFront : " + dirNameFromFront);
             dir.setDirName(dirNameFromFront);
@@ -283,16 +283,39 @@ public class HomeController extends BaseController {
         return "forward:/home";
     }
 
-    
     @RequestMapping("/dir_name_update")
     public String updateDirName(
-            
+
             HttpSession session,
             @RequestParam("new_dir_name") String newDirName,
-            @RequestParam("dir_context_id") String dirId
-            ) {
-        
+            @RequestParam("dir_context_id") String dirId) {
+
         processDirService.updateDirName(dirId, newDirName);
         return "forward:/home";
+    }
+
+    @RequestMapping("/file-share")
+    public String shareFile(
+
+            HttpSession session,
+            @RequestParam("file_context_id") String fileId,
+            // @RequestParam("file_share_password") String fileSharePassword,
+            // @RequestParam("file_context") File file,
+            Model model
+
+    ) {
+        // TODO 此处有一个逻辑错误，假设所有创建失败的原因是已经拥有分享码
+        // 已经拥有分享码将自动跳转分享页面，并自动填充分享码
+        // String fileId = file.getFileId();
+        // String fileSharePassword = file.getFileSharePassword();
+        if (processFileService.makeFileSharePassword(fileId)) {
+            return "forward:/home";
+        } else {
+            String fileSharePassword = processFileService.findFileById(fileId)
+                    .getFileSharePassword();
+            model.addAttribute("share_password_auto", fileSharePassword);
+            return "forward:/share/download-file-from-share";
+        }
+
     }
 }

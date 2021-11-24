@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 
 import com.cc01cc.spring.mapper.BaseMapper;
 import com.cc01cc.spring.pojo.File;
+import com.cc01cc.spring.util.IdMakerUtil;
 
 /**
  * @author cc01cc
@@ -40,6 +41,29 @@ import com.cc01cc.spring.pojo.File;
  */
 @Service
 public class ProcessFileServiceImpl implements ProcessFileService{
+
+    
+
+    IdMakerUtil idMakerUtil = new IdMakerUtil();
+    /** 
+     * <p>Title: makeFileSharePassword</p>
+     * <p>Description: </p>
+     * @param fileId
+     * @return
+     * @see com.cc01cc.spring.service.ProcessFileService#makeFileSharePassword(java.lang.String)
+     *
+     */
+    @Override
+    public boolean makeFileSharePassword(String fileId) {
+        File file = baseMapper.findFileByFileId(fileId);
+        if(file.getFileSharePassword()==null) {
+            String newFileSharePassword = idMakerUtil.makeId(file.getFileUserId());
+            file.setFileSharePassword(newFileSharePassword);
+            baseMapper.updateFileSharePassword(file);
+            return true;
+        }
+        return false;
+    }
 
     @Autowired
     BaseMapper baseMapper;

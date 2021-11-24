@@ -14,13 +14,12 @@
  *   limitations under the License.
  */
 
-
- /**
- *   @Title: ProcessFileService.java
- *   @Description: TODO
- *   @author cc01cc
- *   @date 2021-11-23 
- */  
+/**
+*   @Title: ProcessFileService.java
+*   @Description: TODO
+*   @author cc01cc
+*   @date 2021-11-23 
+*/
 
 package com.cc01cc.spring.service;
 
@@ -30,19 +29,25 @@ import com.cc01cc.spring.pojo.File;
 
 /**
  * @author cc01cc
- * @date 2021-11-23 
+ * @date 2021-11-23
  * @Description: TODO
  * 
  */
 public interface ProcessFileService {
 
     public boolean saveFile(File fileTodo);
-    
+
     public File findFileById(String fileId);
-    
+
     public boolean deleteFileById(String fileId);
-    
+
     public List<File> listFileByParentId(String parentId);
-    
+
     public boolean updateFileName(String fileId, String newFileName);
+
+    // 针对没有分享码的文件创建分享码
+    public boolean makeFileSharePassword(String fileId);
+
+    // TODO 更新分享码，保留功能
+    // public boolean updateFileSharePassword(String fileId);
 }
