@@ -14,7 +14,7 @@
         <a th:href="@{/dir_forward(dir_context_id=${pwd.dirId})}">
             <span th:text=${pwd.dirName}></span>
         </a>
-        <!-- 不能直接使用 > 表示，emmmm 这个样式还需学习 -->
+        <!-- 使用 ${''} 可以表示文本 -->
         <span th:text=${'>'}></span>
     </span>
     <div>
