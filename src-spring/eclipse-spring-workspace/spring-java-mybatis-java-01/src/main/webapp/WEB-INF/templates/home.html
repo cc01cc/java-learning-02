@@ -60,6 +60,16 @@
                             <td><span th:text="${file.fileSharePassword}"></span></td>
                             <td><a th:href="@{/file-download(file_context_id=${file.fileId})}"><span th:text="下载"></span></a></td>
                             <td><a th:href="@{/file-delete(file_context_id=${file.fileId})}"><span th:text="删除"></span></a></td>
+                            <td>
+                                <form th:action="@{/file_name_update(file_context_id=${file.fileId})}" method="post">
+                                    <input type="text" name="new_file_name">
+                                    <button type="submit">改名</button>
+                                </form>
+                                <!-- <input type="text" name="new_file_name">
+                                <a th:href="@{/file_name_update(file_context_id=${file.fileId})}">
+                                    <span th:text="改名"></span>
+                                </a> -->
+                            </td>
                         </tr>
                     </tbody>
                 </table>

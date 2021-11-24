@@ -43,4 +43,6 @@ public interface ProcessFileService {
     public boolean deleteFileById(String fileId);
     
     public List<File> listFileByParentId(String parentId);
+    
+    public boolean updateFileName(String fileId, String newFileName);
 }

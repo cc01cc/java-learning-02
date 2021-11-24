@@ -87,10 +87,12 @@ public class HomeController extends BaseController {
 
     ) {
         System.out.println(session.getAttribute("parent_dir_id").toString());
-//        pwdList.add(processDirService.findDirById(session.getAttribute("parent_dir_id").toString(),session.getAttribute("user_id").toString()));
-//        pwdList = processDirService.listDirPath(session.getAttribute("parent_dir_id").toString());
-        pwdList = processDirService.getDirPathList(session.getAttribute("parent_dir_id").toString());
-        
+        // pwdList.add(processDirService.findDirById(session.getAttribute("parent_dir_id").toString(),session.getAttribute("user_id").toString()));
+        // pwdList =
+        // processDirService.listDirPath(session.getAttribute("parent_dir_id").toString());
+        pwdList = processDirService
+                .getDirPathList(session.getAttribute("parent_dir_id").toString());
+
         System.out.println("pwd_list : " + pwdList);
         model.addAttribute("pwd_list", pwdList);
 
@@ -102,7 +104,7 @@ public class HomeController extends BaseController {
 
         model.addAttribute("file_list", fileList);
         model.addAttribute("dir_list", dirList);
-//        model.addAttribute("dir_list_separator", " > ");
+        // model.addAttribute("dir_list_separator", " > ");
         return "home";
     }
 
@@ -221,15 +223,20 @@ public class HomeController extends BaseController {
     @RequestMapping("/file-delete")
     public String deleteFile(
             HttpServletRequest request,
-            @RequestParam("file_context_id") String fileId) {
+            @RequestParam("file_context_id") String fileId
+
+    ) {
         processFileService.deleteFileById(fileId);
         return "forward:/home";
     }
 
     @RequestMapping("/dir-delete")
     public String deleteDir(
+
             HttpServletRequest request,
-            @RequestParam("dir_context_id") String dirId) {
+            @RequestParam("dir_context_id") String dirId
+
+    ) {
         processDirService.deleteDirById(dirId);
         return "forward:/home";
     }
@@ -242,6 +249,18 @@ public class HomeController extends BaseController {
 
     ) {
         session.setAttribute("parent_dir_id", dirId);
+        return "forward:/home";
+    }
+
+    @RequestMapping("/file_name_update")
+    public String updateFileName(
+
+            HttpSession session,
+            @RequestParam("new_file_name") String newFileName,
+            @RequestParam("file_context_id") String fileId
+
+    ) {
+        processFileService.updateFileName(fileId, newFileName);
         return "forward:/home";
     }
 

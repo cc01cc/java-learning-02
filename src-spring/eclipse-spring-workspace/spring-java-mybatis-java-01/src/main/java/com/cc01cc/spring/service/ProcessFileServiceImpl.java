@@ -125,4 +125,12 @@ public class ProcessFileServiceImpl implements ProcessFileService{
         System.out.println("addFileUserLink : " + result);
         return result;
     }
+    
+    @Override
+    public boolean updateFileName(String fileId, String newFileName) {
+        File file = baseMapper.findFileByFileId(fileId);
+        file.setFileName(newFileName);
+        boolean result = baseMapper.updateFileName(file);
+        return result;
+    }
 }
