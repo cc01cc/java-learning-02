@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cc01cc.spring.mapper.BaseMapper;
 import com.cc01cc.spring.pojo.Dir;
 import com.cc01cc.spring.pojo.File;
 import com.cc01cc.spring.service.ProcessDirService;
@@ -75,20 +76,23 @@ public class HomeController extends BaseController {
 
     // 定义需要处理的文件
     File fileTodo = new File();
+    Dir dir = new Dir();
 
     @RequestMapping("/home")
     public String returnHome(
-            
+
             HttpSession session,
             Model model
-            
-            ) {
-        
-        List<File> fileList = processFileService.listFileByParentId(session.getAttribute("parent_dir_id").toString());
-        
-        List<Dir> dirList = processDirService.listDirByParentId(session.getAttribute("parent_dir_id").toString());
-        
-        model.addAttribute("file_list",fileList);
+
+    ) {
+
+        List<File> fileList = processFileService
+                .listFileByParentId(session.getAttribute("parent_dir_id").toString());
+
+        List<Dir> dirList = processDirService
+                .listDirByParentId(session.getAttribute("parent_dir_id").toString());
+
+        model.addAttribute("file_list", fileList);
         model.addAttribute("dir_list", dirList);
         return "home";
     }
@@ -129,20 +133,21 @@ public class HomeController extends BaseController {
             String path = "T:" + java.io.File.separator + "zeolab" + java.io.File.separator
                     + "temp";
 
-            java.io.File filePath = new java.io.File(
-                    path + java.io.File.separator + fileTodo.getFileMD5());
-
             fileTodo.setFileName(fileContext.getOriginalFilename());
             fileTodo.setFileId(IdMakerUtil.makeId(session.getAttribute("user_id").toString()));
             fileTodo.setFileMD5(md5FromEnd);
-            // 之前还考虑是不是需要添加文件后缀，但是感觉不用，下载文件时，会将文件名重新赋值
-            fileTodo.setFileLocalStore(filePath.getPath());
+
             // TODO addFileUserLink(fileTodo.getFileMD5)
             fileTodo.setFileSharePassword(null);
             fileTodo.setFileParentId(session.getAttribute("parent_dir_id").toString());
             // TODO 这儿 fileuserid 类型冲突了，设计时失误
             fileTodo.setFileUserId(Integer.parseInt(session.getAttribute("user_id").toString()));
             System.out.println("Todo" + fileTodo);
+
+            java.io.File filePath = new java.io.File(
+                    path + java.io.File.separator + fileTodo.getFileMD5());
+            // 之前还考虑是不是需要添加文件后缀，但是感觉不用，下载文件时，会将文件名重新赋值
+            fileTodo.setFileLocalStore(filePath.getPath());
 
             fileContext.transferTo(filePath);
             processFileService.saveFile(fileTodo);
@@ -151,6 +156,30 @@ public class HomeController extends BaseController {
         } else {
             model.addAttribute("file_upload_info", "请选择文件");
         }
+        return "forward:/home";
+    }
+
+    @PostMapping("/dir_make")
+    public String makeDir(
+
+            HttpSession session,
+            @RequestParam("dir-name") String dirNameFromFront,
+            Model model
+
+    ) {
+
+        if (dirNameFromFront != null) {
+            dir.setDirId(IdMakerUtil.makeId(session.getAttribute("user_id").toString()));
+            dir.setDirName(dirNameFromFront);
+            dir.setDirParentId(session.getAttribute("parent_dir_id").toString());
+
+            if (processDirService.saveDir(dir)) {
+                model.addAttribute("dir_make_info", "目录创建成功");
+            }
+        } else {
+            model.addAttribute("dir_make_info", "目录创建失败");
+        }
+
         return "forward:/home";
     }
 
@@ -193,6 +222,17 @@ public class HomeController extends BaseController {
             HttpServletRequest request,
             @RequestParam("dir_context_id") String dirId) {
         processDirService.deleteDirById(dirId);
+        return "forward:/home";
+    }
+
+    @RequestMapping("/dir_forward")
+    public String forwrdDir(
+
+            HttpSession session,
+            @RequestParam("dir_context_id") String dirId
+
+    ) {
+        session.setAttribute("parent_dir_id", dirId);
         return "forward:/home";
     }
 

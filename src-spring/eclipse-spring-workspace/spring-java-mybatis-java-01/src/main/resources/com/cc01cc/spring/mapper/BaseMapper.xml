@@ -141,6 +141,15 @@
         where parent_id = #{fileParentId}
         
     </select>
+    
+    <select id="findDirByParentId" parameterType = "String" resultMap = "dirUserResultMap">
+    
+        select *
+        from dir_user
+        where parent_id = #{dirParentId}
+    
+    
+    </select>
 
     <update id="updateFileUserLink" parameterType="com.cc01cc.spring.pojo.File">
 

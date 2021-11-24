@@ -26,8 +26,10 @@ package com.cc01cc.spring.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cc01cc.spring.mapper.BaseMapper;
 import com.cc01cc.spring.pojo.Dir;
 
 /**
@@ -47,10 +49,14 @@ public class ProcessDirServiceImpl implements ProcessDirService{
      * @see com.cc01cc.spring.service.ProcessDirService#saveDir(com.cc01cc.spring.pojo.Dir)
      *
      */
+    
+    @Autowired
+    BaseMapper baseMapper;
+    
     @Override
     public boolean saveDir(Dir dir) {
-        // TODO Auto-generated method stub
-        return false;
+        boolean result = baseMapper.saveDirUser(dir);
+        return result;
     }
 
     /** 
@@ -91,8 +97,8 @@ public class ProcessDirServiceImpl implements ProcessDirService{
      */
     @Override
     public List<Dir> listDirByParentId(String parentId) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Dir> dirList = baseMapper.findDirByParentId(parentId);
+        return dirList;
     }
     
 
