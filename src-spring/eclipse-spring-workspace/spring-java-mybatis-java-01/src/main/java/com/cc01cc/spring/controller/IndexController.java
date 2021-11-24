@@ -14,22 +14,25 @@
  *   limitations under the License.
  */
 
-
- /**
- *   @Title: IndexController.java
- *   @Description: TODO
- *   @author cc01cc
- *   @date 2021-11-21 
- */  
+/**
+*   @Title: IndexController.java
+*   @Description: TODO
+*   @author cc01cc
+*   @date 2021-11-21 
+*/
 
 package com.cc01cc.spring.controller;
+
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @author cc01cc
- * @date 2021-11-21 
+ * @date 2021-11-21
  * @Description: TODO
  * 
  */
@@ -40,5 +43,5 @@ public class IndexController {
     public String returnIndex() {
         return "index";
     }
-    
+
 }

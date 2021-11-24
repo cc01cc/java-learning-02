@@ -29,6 +29,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,6 +41,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -47,6 +49,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+import com.cc01cc.spring.interceptor.BaseInterceptor;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -59,7 +62,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan({ "com.cc01cc.spring.controller", "com.cc01cc.spring.service",
-        "com.cc01cc.spring.aspectj" })
+        "com.cc01cc.spring.aspectj", "com.cc01cc.spring.interceptor" })
 @MapperScan("com.cc01cc.spring.mapper")
 // 开启事务处理支持
 @EnableTransactionManagement
@@ -111,7 +114,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
-        // SpringResourceTemplateResolver automatically integrates with Spring's own
+        // SpringResourceTemplateResolver automatically integrates with Spring's
+        // own
         // resource resolution infrastructure, which is highly recommended.
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
@@ -185,7 +189,7 @@ public class WebConfig implements WebMvcConfigurer {
     public DataSourceTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
-    
+
     // 配置 multipartResolver
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver multipartResolver() {
@@ -193,5 +197,25 @@ public class WebConfig implements WebMvcConfigurer {
         multipartResolver.setDefaultEncoding("utf-8");
         multipartResolver.setMaxUploadSize(1024 * 1024 * 1024);
         return multipartResolver;
+    }
+
+    // 配置 拦截器
+
+    /**
+     * <p>
+     * Title: addInterceptors
+     * </p>
+     * <p>
+     * Description:
+     * </p>
+     * @param registry
+     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)
+     *
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 在 config 里是无法使用 @Autowired 标签吗，这边引用也失败
+        BaseInterceptor baseInterceptor = new BaseInterceptor();
+        registry.addInterceptor(baseInterceptor).addPathPatterns("/**");
     }
 }

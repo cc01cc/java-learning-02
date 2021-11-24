@@ -24,6 +24,7 @@
 package com.cc01cc.spring.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -175,13 +176,17 @@ public class HomeController extends BaseController {
     public String makeDir(
 
             HttpSession session,
+            HttpServletRequest servletRequest,
             @RequestParam("dir-name") String dirNameFromFront,
             Model model
 
-    ) {
+    ) throws Exception {
 
         if (dirNameFromFront != null) {
             dir.setDirId(IdMakerUtil.makeId(session.getAttribute("user_id").toString()));
+//            servletRequest.getCharacterEncoding();
+            servletRequest.setCharacterEncoding("UTF-8");
+            System.out.println("dirNameFromFront : " + dirNameFromFront);
             dir.setDirName(dirNameFromFront);
             dir.setDirParentId(session.getAttribute("parent_dir_id").toString());
 
