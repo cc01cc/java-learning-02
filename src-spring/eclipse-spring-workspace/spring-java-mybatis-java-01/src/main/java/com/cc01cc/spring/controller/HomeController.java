@@ -24,6 +24,7 @@
 package com.cc01cc.spring.controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -210,13 +211,26 @@ public class HomeController extends BaseController {
         ResponseEntity.BodyBuilder builder      = ResponseEntity.ok();
         builder.contentLength(fileDownload.length());
         builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
+
+        // 书上说 IE 不兼容，网上说 FIREFOX 不兼容
+        // 实测 IE, EDGE, CHROME, FIREFOX 都兼容
+        // 反而是 加了 UTF-8 后无法显示中文了
+        // 代码也都留着吧，做备用
+        String fileName = URLEncoder.encode(file.getFileName(), "UTF-8");
         // String fileName = URLEncoder.encode(file.getFileName(), "UTF-8");
-        if (userAgent.indexOf("MSIE") > 0) {
-            builder.header("Content-Disposition", "attachment; filename=" + file.getFileName());
-        } else {
-            builder.header("Content-Disposition",
-                    "attachment; filename* = URF-8''" + file.getFileName());
-        }
+        // if (userAgent.indexOf("MSIE") > 0) {
+        // builder.header("Content-Disposition", "attachment; filename=" +
+        // file.getFileName());
+        // } else {
+        // builder.header("Content-Disposition",
+        // "attachment; filename* = UTF-8''" + file.getFileName());
+        // }
+        // builder.header("Content-Disposition",
+        // "attachment; filename*=UTF-8''" + file.getFileName());
+        // builder.header("Content-Disposition",
+        // "attachment; filename=" + file.getFileName());
+        builder.header("Content-Disposition",
+                "attachment; filename=" + fileName);
         return builder.body(FileUtils.readFileToByteArray(fileDownload));
     }
 
