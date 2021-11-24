@@ -65,10 +65,13 @@ public interface BaseMapper {
     // 需要配合 findFileUserLink 使用，可以组成事务
     // 不能只能使用 fileUserLink 因为寻找元组也需要参数
     public boolean updateFileUserLink(File file);
-    public boolean updateFileLocalStore(File file);
-    public boolean updateDirParentId(Dir dir);
+    // public boolean updateFileLocalStore(File file);
+    // 因为目录名和目录 id 分离，所以目录名称的更改不会影响子文件/目录的 ParentId
+    // 所以 更改 ParentId 的场景一般为 用户移动子文件夹/目录的位置
+    // TODO 文件位置的移动，保留功能（这涉及到前端浏览器内嵌页面）
+    // public boolean updateDirParentId(Dir dir);
+    // public boolean updateFileParentId(Dir dir);
     public boolean updateDirName(Dir dir);
-    public boolean updateFileParentId(Dir dir);
     public boolean updateFileName(File file);
     public boolean updateFileSharePassword(File file);
     

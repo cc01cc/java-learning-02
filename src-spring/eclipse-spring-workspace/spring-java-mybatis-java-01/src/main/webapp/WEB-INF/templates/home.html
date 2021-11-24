@@ -9,7 +9,14 @@
 </head>
 
 <body>
-    <h1>用户</h1>
+    <h1>用户页</h1>
+    <span th:each="pwd,pwdStat:${pwd_list}">
+        <a th:href="@{/dir_forward(dir_context_id=${pwd.dirId})}">
+            <span th:text=${pwd.dirName}></span>
+        </a>
+        <!-- 不能直接使用 > 表示，emmmm 这个样式还需学习 -->
+        <span th:text=${'>'}></span>
+    </span>
     <div>
         <form th:action="@{/file_upload}" method="post" id="file-upload-form" enctype="multipart/form-data">
             <!-- <form> -->

@@ -40,10 +40,37 @@ public interface ProcessDirService {
 
     public boolean saveDir(Dir dir);
     
+    
     public Dir findDirById(String dirId);
+    // userId 是用于处理根目录的情况
+    public Dir findDirById(String dirId, String userId);
     
     public boolean deleteDirById(String dirId);
     
     public List<Dir> listDirByParentId(String parentId);
+    
+    public void listDirPath(String dirId);
+
+
+    /**
+     * @Title: listDirPath
+     * @Description: TODO
+     * @param @param dirId
+     * @param @param dirPathList
+     * @return void
+     * @throws
+     */
+//    List<Dir> listDirPath(String dirId, List<Dir> dirPathList);
+
+
+    /**
+     * @Title: getDirPathList
+     * @Description: TODO
+     * @param @param dirId
+     * @param @return
+     * @return List<Dir>
+     * @throws
+     */
+    List<Dir> getDirPathList(String dirId);
     
 }

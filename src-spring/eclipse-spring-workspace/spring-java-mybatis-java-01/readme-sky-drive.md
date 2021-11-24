@@ -62,6 +62,7 @@
 - UTF8 的 char 字符占位较多，而我存放的大多为十六进制，空间上还有很大的优化距离
 - 每位用户初始化的根目录id为user id，因为所有用户的目录都在同一个表里，都是 0 或 1 的话，会混淆
 - 但当前的id设置，父节点每个用户都是不同的，极端些，这样的话在dir_user中其实可以不用 user id
+- 分享码简单些，也调成 31 位，和 file id 的生成思路一致
 
 ### DB1 用户账户数据库 (user_account)
 
@@ -96,5 +97,5 @@
 |file_md5|文件MD5码|char|32|否|
 |parent_id|父节点id|char|31|否|
 |file_name|文件名称|varchar|31|否|
-|share_password|共享码|char|9|否|
+|share_password|共享码|char|31|否|
 |user_id|用户id|int||否|

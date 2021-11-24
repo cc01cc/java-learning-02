@@ -14,16 +14,16 @@
  *   limitations under the License.
  */
 
-
- /**
- *   @Title: ProcessDirServiceImpl.java
- *   @Description: TODO
- *   @author cc01cc
- *   @date 2021-11-23 
- */  
+/**
+*   @Title: ProcessDirServiceImpl.java
+*   @Description: TODO
+*   @author cc01cc
+*   @date 2021-11-23 
+*/
 
 package com.cc01cc.spring.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,34 +34,42 @@ import com.cc01cc.spring.pojo.Dir;
 
 /**
  * @author cc01cc
- * @date 2021-11-23 
+ * @date 2021-11-23
  * @Description: TODO
  * 
  */
 @Service
-public class ProcessDirServiceImpl implements ProcessDirService{
+public class ProcessDirServiceImpl implements ProcessDirService {
 
-    /** 
-     * <p>Title: saveDir</p>
-     * <p>Description: </p>
+    /**
+     * <p>
+     * Title: saveDir
+     * </p>
+     * <p>
+     * Description:
+     * </p>
      * @param dir
      * @return
      * @see com.cc01cc.spring.service.ProcessDirService#saveDir(com.cc01cc.spring.pojo.Dir)
      *
      */
-    
+
     @Autowired
     BaseMapper baseMapper;
-    
+
     @Override
     public boolean saveDir(Dir dir) {
         boolean result = baseMapper.saveDirUser(dir);
         return result;
     }
 
-    /** 
-     * <p>Title: findDirById</p>
-     * <p>Description: </p>
+    /**
+     * <p>
+     * Title: findDirById
+     * </p>
+     * <p>
+     * Description:
+     * </p>
      * @param dirId
      * @return
      * @see com.cc01cc.spring.service.ProcessDirService#findDirById(java.lang.String)
@@ -69,13 +77,33 @@ public class ProcessDirServiceImpl implements ProcessDirService{
      */
     @Override
     public Dir findDirById(String dirId) {
-        // TODO Auto-generated method stub
-        return null;
+        Dir dir = new Dir();
+
+        dir = baseMapper.findDirByDirId(dirId);
+
+        return dir;
     }
 
-    /** 
-     * <p>Title: deleteDirById</p>
-     * <p>Description: </p>
+    @Override
+    public Dir findDirById(String dirId, String userId) {
+        Dir dir = new Dir();
+        if (dirId.equals(userId)) {
+            dir.setDirId(userId);
+            dir.setDirName(userId);
+            dir.setDirParentId(null);
+        } else {
+            dir = baseMapper.findDirByDirId(dirId);
+        }
+        return dir;
+    }
+
+    /**
+     * <p>
+     * Title: deleteDirById
+     * </p>
+     * <p>
+     * Description:
+     * </p>
      * @param dirId
      * @return
      * @see com.cc01cc.spring.service.ProcessDirService#deleteDirById(java.lang.String)
@@ -87,9 +115,13 @@ public class ProcessDirServiceImpl implements ProcessDirService{
         return false;
     }
 
-    /** 
-     * <p>Title: listFileByParentId</p>
-     * <p>Description: </p>
+    /**
+     * <p>
+     * Title: listFileByParentId
+     * </p>
+     * <p>
+     * Description:
+     * </p>
      * @param parentId
      * @return
      * @see com.cc01cc.spring.service.ProcessDirService#listFileByParentId(java.lang.String)
@@ -100,7 +132,78 @@ public class ProcessDirServiceImpl implements ProcessDirService{
         List<Dir> dirList = baseMapper.findDirByParentId(parentId);
         return dirList;
     }
-    
 
-    
+    private Dir dir = new Dir();
+
+    @Override
+    public List<Dir> getDirPathList(String dirId) {
+        System.out.println("getDirPathList Start...");
+        List<Dir> dirPathList = new ArrayList<>();
+        dirPathList = listDirPath(dirId, dirPathList);
+        return dirPathList;
+    }
+
+//    @Override
+    public List<Dir> listDirPath(String dirId, List<Dir> dirPathList) {
+        dir = findDirById(dirId);
+        if (dir != null) {
+            // TODO 这边设置一个变量存储 dir，我也不清楚为什么这儿递归跳出之后 dir 会变为null
+            Dir dirProcess =dir;
+            System.out.println("dirListPathProcess : " + dir);
+            dirPathList = listDirPath(dir.getDirParentId(), dirPathList);
+            System.out.println("dirListPathProcess After: " + dir);
+            dirPathList.add(dirProcess);
+        } else {
+             Dir dirRoot = new Dir();
+             dirRoot.setDirId(dirId);
+             dirRoot.setDirName(dirId);
+             dirRoot.setDirParentId(null);
+             System.out.println("dirListPathBotton : "+dirRoot);
+             dirPathList.add(dirRoot);
+        }
+
+        System.out.println("dirPathList : " + dirPathList);
+        return dirPathList;
+    }
+
+    /**
+     * <p>
+     * Title: listDirPath
+     * </p>
+     * <p>
+     * Description:
+     * </p>
+     * @param dirId
+     * @see com.cc01cc.spring.service.ProcessDirService#listDirPath(java.lang.String)
+     *
+     */
+    @Override
+    public void listDirPath(String dirId) {
+        // TODO Auto-generated method stub
+
+    }
+
+    // @Override
+    // public List<Dir> listDirPath(String dirId){
+    //// List<Dir> dirPathList = new ArrayList<>();
+    // dir = findDirById(dirId);
+    //
+    // if(dir!=null) {
+    // System.out.println("dirListPathProcess : "+dir);
+    // listDirPath(dir.getDirParentId());
+    //// dirPathList.add(dir);
+    // }else {
+    //// Dir dirRoot = new Dir();
+    //// dirRoot.setDirId(dirId);
+    //// dirRoot.setDirName(dirId);
+    //// dirRoot.setDirParentId(null);
+    //// System.out.println("dirListPathBotton : "+dirRoot);
+    //// dirPathList.add(dirRoot);
+    // dir.setDirId(dirId);
+    // dir.setDirName(dirId);
+    // dir.setDirParentId(null);
+    // }
+    // System.out.println("dirPathList : "+dirPathList);
+    // return dirPathList.add(dir);
+    // }
 }

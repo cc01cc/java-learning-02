@@ -52,7 +52,7 @@ CREATE TABLE file_user(
     file_md5 CHAR(32),
     parent_id CHAR(31),
     file_name varchar(31),
-    share_password CHAR(9),
+    share_password CHAR(31),
     user_id INT,
     utc_create DATETIME DEFAULT CURRENT_TIMESTAMP,
     utc_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

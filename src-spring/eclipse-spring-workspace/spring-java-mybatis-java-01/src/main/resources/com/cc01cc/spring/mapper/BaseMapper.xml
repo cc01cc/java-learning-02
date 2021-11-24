@@ -62,6 +62,8 @@
 
     </resultMap>
 
+
+    <!-- id 需要和接口类中的方法名相同 -->
     <!-- #{}内使用的是pojo实体类的属性名,其余为数据库的字段名,需要一一对应 -->
     <!-- Buser findByIdAndPassword(Integer id, String password); -->
     <select id="findByIdAndPassword" parameterType="User" resultMap="userResultMap">
@@ -89,7 +91,10 @@
         where pk_user_id=#{userId}
 
     </select>
-    
+
+
+
+
 
 
     <insert id="saveFileLocal" parameterType="com.cc01cc.spring.pojo.File">
@@ -125,15 +130,42 @@
         where pk_file_md5 = #{md5}
 
     </select>
-    
-	      <select id="findFileByFileId" parameterType = "String" resultMap = "fileUserResultMap">
+
+    <select id="findFileByFileId" parameterType = "String" resultMap = "fileUserResultMap">
 	      
 	      select *
 	      from file_user
 	      where pk_file_id = #{fileId}
 	      
-	      </select>
+    </select>
+
+
+    <select id="findDirByDirId" parameterType = "String" resultMap = "dirUserResultMap">
+	      
+	       select *
+	       from dir_user
+	       where pk_dir_id = #{dirId}
+	      
+    </select>
+
+    <select id = "findFileByFileSharePassword" parameterType = "String" resultMap = "fileUserResultMap">
+	      
+	      select *
+	      from dir_user
+	      where share_password = #{fileSharePassword}
+	      
+    </select>
+
+    <select id="fileFileByFileUserLink" parameterType = "String" resultMap = "fileLocalResultMap">
     
+    select *
+    from file_user
+    where file_user_link = #{fileUserLink}
+    
+    </select>
+
+
+
     <select id="findFileByParentId" parameterType = "String" resultMap = "fileUserResultMap">
         
         select *
@@ -141,7 +173,7 @@
         where parent_id = #{fileParentId}
         
     </select>
-    
+
     <select id="findDirByParentId" parameterType = "String" resultMap = "dirUserResultMap">
     
         select *
@@ -158,18 +190,51 @@
         where pk_file_md5 = #{fileMD5}
 
     </update>
+
+    <update id="updateDirName" parameterType = "com.cc01cc.spring.pojo.Dir">
     
+        update dir_user
+        set dir_name = #{dirName}
+        where pk_dir_id = #{dirId}
+    
+    </update>
+
+
+    <update id="updateFileName" parameterType = "com.cc01cc.spring.pojo.File">
+    
+        update file_user
+        set file_name = #{fileName}
+        where pk_file_id = #{fileId}
+    
+    </update>
+
+    <update id="updateFileSharePassword" parameterType = "com.cc01cc.spring.pojo.File">
+    
+        update file_user
+        set share_password = #{fileSharePassword}
+        where pk_file_id = #{fileId}
+    
+    </update>
+
     <delete id="deleteFileByFileId" parameterType = "String">
     
         delete from file_user
         where pk_file_id = #{fileId}
     
     </delete>
-    
+
     <delete id="deleteFileByFileMD5" parameterType = "String">
     
         delete from file_local
         where pk_file_md5 = #{fileMD5}
+    
+    </delete>
+
+    <!-- 执行此操作之前，务必确保目录内容被清空 -->
+    <delete id = "deleteDirByDirId" parameterType = "String">
+    
+        delete from dir_user
+        where pk_dir_id = #{dirId}
     
     </delete>
 </mapper>

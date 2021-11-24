@@ -24,6 +24,7 @@
 package com.cc01cc.spring.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cc01cc.spring.mapper.BaseMapper;
 import com.cc01cc.spring.pojo.Dir;
 import com.cc01cc.spring.pojo.File;
 import com.cc01cc.spring.service.ProcessDirService;
@@ -77,6 +77,7 @@ public class HomeController extends BaseController {
     // 定义需要处理的文件
     File fileTodo = new File();
     Dir dir = new Dir();
+    List<Dir> pwdList = new ArrayList<>();
 
     @RequestMapping("/home")
     public String returnHome(
@@ -85,6 +86,13 @@ public class HomeController extends BaseController {
             Model model
 
     ) {
+        System.out.println(session.getAttribute("parent_dir_id").toString());
+//        pwdList.add(processDirService.findDirById(session.getAttribute("parent_dir_id").toString(),session.getAttribute("user_id").toString()));
+//        pwdList = processDirService.listDirPath(session.getAttribute("parent_dir_id").toString());
+        pwdList = processDirService.getDirPathList(session.getAttribute("parent_dir_id").toString());
+        
+        System.out.println("pwd_list : " + pwdList);
+        model.addAttribute("pwd_list", pwdList);
 
         List<File> fileList = processFileService
                 .listFileByParentId(session.getAttribute("parent_dir_id").toString());
@@ -94,6 +102,7 @@ public class HomeController extends BaseController {
 
         model.addAttribute("file_list", fileList);
         model.addAttribute("dir_list", dirList);
+//        model.addAttribute("dir_list_separator", " > ");
         return "home";
     }
 
