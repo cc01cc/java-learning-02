@@ -72,6 +72,8 @@
 |pk_user_id|用户id|int||否|
 |user_password|用户密码|char|31|否|
 |user_name|用户昵称|varchar|31|否|
+|utc_create|建表时间|DATETIME||否|
+|utc_modified|最后修改时间|DATETIME||否|
 
 ### DB2 文件路径映射数据库 (file_local)
 
@@ -80,6 +82,8 @@
 |pk_file_md5|文件MD5码|char|32|否|
 |file_user_link|文件用户数|int||否|
 |file_local_store|文件本地存储路径|varchar|255|否|
+|utc_create|建表时间|DATETIME||否|
+|utc_modified|最后修改时间|DATETIME||否|
 
 ### DB4 用户目录存储映射表 (dir_user)
 
@@ -89,6 +93,8 @@
 |parent_id|父节点id|char|31|否|
 |dir_name|目录名称|varchar|31|否|
 |user_id|用户id|int||否|
+|utc_create|建表时间|DATETIME||否|
+|utc_modified|最后修改时间|DATETIME||否|
 
 ### DB5 用户文件存储映射表 (file_user)
 
@@ -100,3 +106,5 @@
 |file_name|文件名称|varchar|31|否|
 |share_password|共享码|char|31|否|
 |user_id|用户id|int||否|
+|utc_create|建表时间|DATETIME||否|
+|utc_modified|最后修改时间|DATETIME||否|
