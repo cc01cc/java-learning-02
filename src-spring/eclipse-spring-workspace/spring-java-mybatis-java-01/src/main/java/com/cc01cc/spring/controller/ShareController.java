@@ -14,13 +14,12 @@
  *   limitations under the License.
  */
 
-
- /**
- *   @Title: ShareController.java
- *   @Description: TODO
- *   @author cc01cc
- *   @date 2021-11-25 
- */  
+/**
+*   @Title: ShareController.java
+*   @Description: TODO
+*   @author cc01cc
+*   @date 2021-11-25 
+*/
 
 package com.cc01cc.spring.controller;
 
@@ -43,7 +42,7 @@ import com.cc01cc.spring.service.ProcessFileService;
 
 /**
  * @author cc01cc
- * @date 2021-11-25 
+ * @date 2021-11-25
  * @Description: TODO
  * 
  */
@@ -52,31 +51,31 @@ public class ShareController {
 
     @Autowired
     ProcessFileService processFileService;
-    
+
     @RequestMapping("/share")
     public String returnShare() {
         return "share";
     }
-    
+
     @PostMapping("/share/download-file-from-share")
     public ResponseEntity<byte[]> downloadFileFromShare(
-            
+
             @RequestParam("share_password") String fileSharePassword,
             HttpServletRequest request,
             @RequestHeader("User-Agent") String userAgent
-            
-            ) throws Exception {
-        File   file     = processFileService.findFileBySharePassword(fileSharePassword);
-        System.out.println("file - Share : "+ file);
+
+    ) throws Exception {
+        File file = processFileService.findFileBySharePassword(fileSharePassword);
+        System.out.println("file - Share : " + file);
         String filePath = file.getFileLocalStore();
 
         java.io.File               fileDownload = new java.io.File(filePath);
         ResponseEntity.BodyBuilder builder      = ResponseEntity.ok();
         builder.contentLength(fileDownload.length());
         builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
-        
+
         String fileName = URLEncoder.encode(file.getFileName(), "UTF-8");
-        
+
         builder.header("Content-Disposition",
                 "attachment; filename=" + fileName);
         return builder.body(FileUtils.readFileToByteArray(fileDownload));

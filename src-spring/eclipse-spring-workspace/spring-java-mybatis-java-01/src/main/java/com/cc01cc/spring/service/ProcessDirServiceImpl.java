@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 
 import com.cc01cc.spring.mapper.BaseMapper;
 import com.cc01cc.spring.pojo.Dir;
+import com.cc01cc.spring.pojo.File;
 
 /**
  * @author cc01cc
@@ -109,10 +110,31 @@ public class ProcessDirServiceImpl implements ProcessDirService {
      * @see com.cc01cc.spring.service.ProcessDirService#deleteDirById(java.lang.String)
      *
      */
+    @Autowired
+    private ProcessFileService processFileService;
     @Override
     public boolean deleteDirById(String dirId) {
-        // TODO Auto-generated method stub
-        return false;
+        
+//        Dir dirTodo = baseMapper.findDirByDirId(dirId);
+//        String dirTodoParentId = dirTodo.getDirParentId();
+
+        List<File> fileListDelete = baseMapper.findFileByParentId(dirId);
+        List<Dir> dirListDelete = baseMapper.findDirByParentId(dirId);
+        
+        
+        for(File fileDelete : fileListDelete ) {
+            processFileService.deleteFileById(fileDelete.getFileId());
+        }
+        
+        for(Dir dirDelete : dirListDelete) {
+//            Dir dirKeep = dirDelete;
+            deleteDirById(dirDelete.getDirId());
+//            System.out.println("dirDelete : " + dirDelete);
+//            baseMapper.deleteDirByDirId(dir.getDirId());
+        }
+        System.out.println("dirDelete : " + dir);
+        baseMapper.deleteDirByDirId(dirId);
+        return true;
     }
 
     /**
