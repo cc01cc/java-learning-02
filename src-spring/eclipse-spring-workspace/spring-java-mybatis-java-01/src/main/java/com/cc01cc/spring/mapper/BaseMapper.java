@@ -51,6 +51,7 @@ public interface BaseMapper {
      * @return File 不清楚 使用 int 是返回查询的条数还是值。暂用 File 代替
      * @throws
      */
+    public User findUserById(String userId);
     public File findFileByMD5(String md5);
     public File findFileByFileId(String fileId);
     public Dir findDirByDirId(String dirId);
@@ -74,6 +75,9 @@ public interface BaseMapper {
     public boolean updateDirName(Dir dir);
     public boolean updateFileName(File file);
     public boolean updateFileSharePassword(File file);
+    public boolean updateUserRoomUsed(User user);
+    // TODO 更改用户总容量，保留功能
+//    public boolean updateUserRoomTotal(User user);
     
     // 只有 fileUserLink 为 0 时才可根据 md5 删除
     public boolean deleteFileByFileMD5(String md5);

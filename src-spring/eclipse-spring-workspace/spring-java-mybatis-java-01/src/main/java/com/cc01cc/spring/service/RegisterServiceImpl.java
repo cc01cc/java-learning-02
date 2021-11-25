@@ -15,6 +15,8 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public boolean register(User user) {
         if (isNew(user)) {
+            user.setUserRoomTotal(10*1024);
+            user.setUserRoomUsed(0);
             int i = baseMapper.saveUser(user);
             System.out.println(i);
             return true;

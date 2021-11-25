@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 
 import com.cc01cc.spring.mapper.BaseMapper;
 import com.cc01cc.spring.pojo.File;
+import com.cc01cc.spring.pojo.User;
 import com.cc01cc.spring.util.IdMakerUtil;
 
 /**
@@ -107,7 +108,16 @@ public class ProcessFileServiceImpl implements ProcessFileService{
     @Override
     public boolean deleteFileById(String fileId) {
         File file = baseMapper.findFileByFileId(fileId);
+        
         baseMapper.deleteFileByFileId(fileId);
+        // TODO fileUserId 类型需要优化
+        int fileUserId = file.getFileUserId();
+        
+        User user = baseMapper.findUserById(String.valueOf(fileUserId));
+        System.out.println("file : "+baseMapper.findFileByMD5(file.getFileMD5()));
+        System.out.println("fileSize : "+baseMapper.findFileByMD5(file.getFileMD5()).getFileSize());
+        user.setUserRoomUsed(user.getUserRoomUsed()-baseMapper.findFileByMD5(file.getFileMD5()).getFileSize());
+        baseMapper.updateUserRoomUsed(user);
         
         file.setFileUserLink(baseMapper.findFileByMD5(file.getFileMD5()).getFileUserLink());
         System.out.println("deleteFile : " + file);

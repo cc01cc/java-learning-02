@@ -20,6 +20,8 @@ CREATE TABLE user_account(
     pk_user_id INT PRIMARY KEY,
     user_password char(31),
     user_name varchar(31),
+    user_room_used INT,
+    user_room_total INT,
     utc_create DATETIME DEFAULT CURRENT_TIMESTAMP,
     utc_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )DEFAULT CHARSET = "UTF8MB4";
@@ -30,6 +32,7 @@ CREATE TABLE file_local(
     pk_file_md5 char(32) PRIMARY KEY,
     file_user_link INT ,
     file_local_store VARCHAR(255),
+    file_size INT,
     utc_create DATETIME DEFAULT CURRENT_TIMESTAMP,
     utc_modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )DEFAULT CHARSET = "UTF8MB4";
@@ -66,6 +69,11 @@ select pk_user_id, user_password from user_account
 where pk_user_id=1 and user_password="123";
     
 
-insert into user_account(pk_user_id,user_password)
-value (1,"123");
+insert into user_account(pk_user_id,user_password,user_room_used,user_room_total)
+value (1,"123",0,20*1024);
 
+SELECT * FROM user_account;
+
+SELECT * FROM file_local;
+
+SELECT * FROM file_user;

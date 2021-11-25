@@ -39,6 +39,23 @@ public class File {
     private String fileSharePassword;
     private String fileId;
     private String fileParentId;
+    private int fileSize;
+
+
+
+    /**
+     * @return the fileSize
+     */
+    public int getFileSize() {
+        return fileSize;
+    }
+
+    /**
+     * @param fileSize the fileSize to set
+     */
+    public void setFileSize(int fileSize) {
+        this.fileSize = fileSize;
+    }
 
     private int fileUserId;
     
@@ -166,7 +183,7 @@ public class File {
         return "File [fileUserLink=" + fileUserLink + ", fileMD5=" + fileMD5 + ", fileLocalStore="
                 + fileLocalStore + ", fileName=" + fileName + ", fileSharePassword="
                 + fileSharePassword + ", fileId=" + fileId + ", fileParentId=" + fileParentId
-                + ", fileUserId=" + fileUserId + "]";
+                + ", fileSize=" + fileSize + ", fileUserId=" + fileUserId + "]";
     }
 
 }

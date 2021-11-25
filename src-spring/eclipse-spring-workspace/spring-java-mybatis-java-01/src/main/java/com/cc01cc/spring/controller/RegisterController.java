@@ -57,6 +57,7 @@ public class RegisterController {
             @ModelAttribute("user_context") User user,
             Model model) {
         String registerInfo;
+        // TODO 此处传参只有账户密码，不能自定义用户容量，之后需要调整
         if (registerService.register(user)) {
             registerInfo = "注册成功，返回";
             // System.out.println(registerInfo);

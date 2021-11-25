@@ -6,235 +6,260 @@
 <mapper namespace="com.cc01cc.spring.mapper.BaseMapper">
 
 
-    <!-- 手动配置 resultMap 映射，id 为该映射标识符，type 为类(别名，使用@Alias) -->
-    <!-- 手动配置返回值使用 resultMap 参数，而不是 resultType -->
-    <resultMap type="com.cc01cc.spring.pojo.User" id="userResultMap">
+	<!-- 手动配置 resultMap 映射，id 为该映射标识符，type 为类(别名，使用@Alias) -->
+	<!-- 手动配置返回值使用 resultMap 参数，而不是 resultType -->
+	<resultMap type="com.cc01cc.spring.pojo.User" id="userResultMap">
 
-        <!-- id 和 result 都创建映射，但 id 标记的属性可以作为对象的标识符，提高整体性能 -->
+		<!-- id 和 result 都创建映射，但 id 标记的属性可以作为对象的标识符，提高整体性能 -->
 
-        <id property="userId" column="pk_user_id" jdbcType="INTEGER" />
+		<id property="userId" column="pk_user_id" jdbcType="INTEGER" />
 
-        <result property="userPassword" column="user_password" jdbcType="VARCHAR" />
+		<result property="userPassword" column="user_password" jdbcType="VARCHAR" />
 
-        <!-- 可以为空值的参数，必须指定 jabcType 值，避免 sql 表更改的麻烦，就所有映射添加 jdbcType -->
-        <result property="userName" column="user_name" jdbcType="VARCHAR" />
+		<!-- 可以为空值的参数，必须指定 jabcType 值，避免 sql 表更改的麻烦，就所有映射添加 jdbcType -->
+		<result property="userName" column="user_name" jdbcType="VARCHAR" />
 
-    </resultMap>
+		<result property="userRoomUsed" column="user_room_used" jdbcType="INTEGER" />
 
-    <!-- 因为 type 的限制，所以数据库的表和 pojo 实体类必须包含表，虽然有更加高级的映射，但先挑简单的 -->
-    <resultMap type="com.cc01cc.spring.pojo.File" id="fileLocalResultMap">
+		<result property="userRoomTotal" column="user_room_total" jdbcType="INTEGER" />
 
-        <id property="fileMD5" column="pk_file_md5" jdbcType="CHAR" />
+	</resultMap>
 
-        <result property="fileUserLink" column="file_user_link" jdbcType="INTEGER" />
+	<!-- 因为 type 的限制，所以数据库的表和 pojo 实体类必须包含表，虽然有更加高级的映射，但先挑简单的 -->
+	<resultMap type="com.cc01cc.spring.pojo.File" id="fileLocalResultMap">
 
-        <result property="fileLocalStore" column="file_local_store" jdbcType="VARCHAR" />
+		<id property="fileMD5" column="pk_file_md5" jdbcType="CHAR" />
 
-    </resultMap>
+		<result property="fileUserLink" column="file_user_link" jdbcType="INTEGER" />
 
+		<result property="fileLocalStore" column="file_local_store" jdbcType="VARCHAR" />
 
+		<result property="fileSize" column="file_size" jdbcType="INTEGER" />
 
-    <resultMap type="com.cc01cc.spring.pojo.File" id="fileUserResultMap">
+	</resultMap>
 
-        <id property="fileId" column="pk_file_id" jdbcType="CHAR" />
 
-        <result property="fileMD5" column="file_md5" jdbcType="CHAR" />
 
-        <result property="fileParentId" column="parent_id" jdbcType="CHAR" />
+	<resultMap type="com.cc01cc.spring.pojo.File" id="fileUserResultMap">
 
-        <result property="fileName" column="file_name" jdbcType="VARCHAR" />
+		<id property="fileId" column="pk_file_id" jdbcType="CHAR" />
 
-        <result property="fileSharePassword" column="share_password" jdbcType="VARCHAR" />
+		<result property="fileMD5" column="file_md5" jdbcType="CHAR" />
 
-        <result property="fileUserId" column="user_id" jdbcType="INTEGER" />
+		<result property="fileParentId" column="parent_id" jdbcType="CHAR" />
 
-    </resultMap>
+		<result property="fileName" column="file_name" jdbcType="VARCHAR" />
 
-    <resultMap type="com.cc01cc.spring.pojo.Dir" id="dirUserResultMap">
+		<result property="fileSharePassword" column="share_password" jdbcType="VARCHAR" />
 
-        <id property="dirId" column="pk_dir_id" jdbcType="CHAR" />
+		<result property="fileUserId" column="user_id" jdbcType="INTEGER" />
 
-        <result property="dirParentId" column="parent_id" jdbcType="CHAR" />
+		<result property="fileSize" column="file_size" jdbcType="INTEGER" />
 
-        <result property="dirName" column="dir_name" jdbcType="VARCHAR" />
+	</resultMap>
 
-        <result property="dirUserId" column="user_id" jdbcType="INTEGER" />
+	<resultMap type="com.cc01cc.spring.pojo.Dir" id="dirUserResultMap">
 
-    </resultMap>
+		<id property="dirId" column="pk_dir_id" jdbcType="CHAR" />
 
+		<result property="dirParentId" column="parent_id" jdbcType="CHAR" />
 
-    <!-- id 需要和接口类中的方法名相同 -->
-    <!-- #{}内使用的是pojo实体类的属性名,其余为数据库的字段名,需要一一对应 -->
-    <!-- Buser findByIdAndPassword(Integer id, String password); -->
-    <select id="findByIdAndPassword" parameterType="User" resultMap="userResultMap">
+		<result property="dirName" column="dir_name" jdbcType="VARCHAR" />
 
-        select pk_user_id, user_password
-        from user_account
-        where pk_user_id=#{userId} and user_password=#{userPassword}
+		<result property="dirUserId" column="user_id" jdbcType="INTEGER" />
 
-    </select>
+	</resultMap>
 
 
-    <insert id="saveUser" parameterType="User">
+	<!-- id 需要和接口类中的方法名相同 -->
+	<!-- #{}内使用的是pojo实体类的属性名,其余为数据库的字段名,需要一一对应 -->
+	<!-- Buser findByIdAndPassword(Integer id, String password); -->
+	<!-- TODO user 和 user_account 的表名并不匹配，之前遗留的问题 -->
+	<select id="findByIdAndPassword" parameterType="User" resultMap="userResultMap">
 
-        insert into
-        user_account(pk_user_id,user_password)
-        value
-        (#{userId},#{userPassword})
+		select pk_user_id, user_password
+		from user_account
+		where pk_user_id=#{userId} and user_password=#{userPassword}
 
-    </insert>
+	</select>
 
 
-    <select id="findById" parameterType="String" resultMap="userResultMap">
+	<insert id="saveUser" parameterType="User">
 
-        select pk_user_id from user_account
-        where pk_user_id=#{userId}
+		insert into
+		user_account(pk_user_id,user_password,user_room_used,user_room_total)
+		value
+		(#{userId},#{userPassword},#{userRoomUsed},#{userRoomTotal})
 
-    </select>
+	</insert>
 
 
+	<select id="findById" parameterType="String" resultMap="userResultMap">
 
+		select pk_user_id from user_account
+		where pk_user_id=#{userId}
 
+	</select>
 
 
-    <insert id="saveFileLocal" parameterType="com.cc01cc.spring.pojo.File">
+	<!-- TODO 此处不返回密码等敏感信息，貌似可以和上一条映射合并 -->
+	<select id="findUserById" parameterType="String" resultMap="userResultMap">
 
-        insert into file_local(pk_file_md5, file_user_link, file_local_store)
-        values (#{fileMD5},
-        #{fileUserLink}, #{fileLocalStore})
+		select pk_user_id, user_room_used, user_room_total
+		from user_account
+		where pk_user_id = #{userId}
 
-    </insert>
+	</select>
 
-    <insert id="saveFileUser" parameterType="com.cc01cc.spring.pojo.File">
 
-        insert into file_user(pk_file_id, file_md5, parent_id, file_name, share_password, user_id)
-        values (#{fileId}, #{fileMD5},
-        #{fileParentId}, #{fileName}, #{fileSharePassword}, #{fileUserId})
 
-    </insert>
-
-    <insert id="saveDirUser" parameterType="com.cc01cc.spring.pojo.Dir">
-
-        insert into dir_user(pk_dir_id, parent_id, dir_name, user_id)
-        values (#{dirId}, #{dirParentId},
-        #{dirName}, #{dirUserId})
-
-    </insert>
-
-
-
-    <select id="findFileByMD5" parameterType="String" resultMap="fileLocalResultMap">
-
-        select *
-        from file_local
-        where pk_file_md5 = #{md5}
-
-    </select>
-
-    <select id="findFileByFileId" parameterType = "String" resultMap = "fileUserResultMap">
-	      
-	      select *
-	      from file_user
-	      where pk_file_id = #{fileId}
-	      
-    </select>
-
-
-    <select id="findDirByDirId" parameterType = "String" resultMap = "dirUserResultMap">
-	      
-	       select *
-	       from dir_user
-	       where pk_dir_id = #{dirId}
-	      
-    </select>
-
-    <select id = "findFileByFileSharePassword" parameterType = "String" resultMap = "fileUserResultMap">
-	      
-	      select *
-	      from file_user
-	      where share_password = #{fileSharePassword}
-	      
-    </select>
-
-    <select id="fileFileByFileUserLink" parameterType = "String" resultMap = "fileLocalResultMap">
-    
-    select *
-    from file_user
-    where file_user_link = #{fileUserLink}
-    
-    </select>
-
-
-
-    <select id="findFileByParentId" parameterType = "String" resultMap = "fileUserResultMap">
-        
-        select *
-        from file_user
-        where parent_id = #{fileParentId}
-        
-    </select>
-
-    <select id="findDirByParentId" parameterType = "String" resultMap = "dirUserResultMap">
-    
-        select *
-        from dir_user
-        where parent_id = #{dirParentId}
-    
-    
-    </select>
-
-    <update id="updateFileUserLink" parameterType="com.cc01cc.spring.pojo.File">
-
-        update file_local
-        set file_user_link = #{fileUserLink}
-        where pk_file_md5 = #{fileMD5}
-
-    </update>
-
-    <update id="updateDirName" parameterType = "com.cc01cc.spring.pojo.Dir">
-    
-        update dir_user
-        set dir_name = #{dirName}
-        where pk_dir_id = #{dirId}
-    
-    </update>
-
-
-    <update id="updateFileName" parameterType = "com.cc01cc.spring.pojo.File">
-    
-        update file_user
-        set file_name = #{fileName}
-        where pk_file_id = #{fileId}
-    
-    </update>
-
-    <update id="updateFileSharePassword" parameterType = "com.cc01cc.spring.pojo.File">
-    
-        update file_user
-        set share_password = #{fileSharePassword}
-        where pk_file_id = #{fileId}
-    
-    </update>
-
-    <delete id="deleteFileByFileId" parameterType = "String">
-    
-        delete from file_user
-        where pk_file_id = #{fileId}
-    
-    </delete>
-
-    <delete id="deleteFileByFileMD5" parameterType = "String">
-    
-        delete from file_local
-        where pk_file_md5 = #{fileMD5}
-    
-    </delete>
-
-    <!-- 执行此操作之前，务必确保目录内容被清空 -->
-    <delete id = "deleteDirByDirId" parameterType = "String">
-    
-        delete from dir_user
-        where pk_dir_id = #{dirId}
-    
-    </delete>
+	<insert id="saveFileLocal" parameterType="com.cc01cc.spring.pojo.File">
+
+		insert into file_local(pk_file_md5, file_user_link, file_local_store, file_size)
+		values (#{fileMD5},
+		#{fileUserLink}, #{fileLocalStore}, #{fileSize})
+
+	</insert>
+
+	<insert id="saveFileUser" parameterType="com.cc01cc.spring.pojo.File">
+
+		insert into file_user(pk_file_id, file_md5, parent_id, file_name, share_password, user_id)
+		values (#{fileId}, #{fileMD5},
+		#{fileParentId}, #{fileName}, #{fileSharePassword}, #{fileUserId})
+
+	</insert>
+
+	<insert id="saveDirUser" parameterType="com.cc01cc.spring.pojo.Dir">
+
+		insert into dir_user(pk_dir_id, parent_id, dir_name, user_id)
+		values (#{dirId}, #{dirParentId},
+		#{dirName}, #{dirUserId})
+
+	</insert>
+
+
+
+	<select id="findFileByMD5" parameterType="String" resultMap="fileLocalResultMap">
+
+		select *
+		from file_local
+		where pk_file_md5 = #{md5}
+
+	</select>
+
+	<select id="findFileByFileId" parameterType="String" resultMap="fileUserResultMap">
+
+		select *
+		from file_user
+		where pk_file_id = #{fileId}
+
+	</select>
+
+
+	<select id="findDirByDirId" parameterType="String" resultMap="dirUserResultMap">
+
+		select *
+		from dir_user
+		where pk_dir_id = #{dirId}
+
+	</select>
+
+	<select id="findFileByFileSharePassword" parameterType="String"
+		resultMap="fileUserResultMap">
+
+		select *
+		from file_user
+		where share_password = #{fileSharePassword}
+
+	</select>
+
+	<select id="fileFileByFileUserLink" parameterType="String" resultMap="fileLocalResultMap">
+
+		select *
+		from file_user
+		where file_user_link = #{fileUserLink}
+
+	</select>
+
+
+
+	<select id="findFileByParentId" parameterType="String" resultMap="fileUserResultMap">
+
+		select *
+		from file_user
+		where parent_id = #{fileParentId}
+
+	</select>
+
+	<select id="findDirByParentId" parameterType="String" resultMap="dirUserResultMap">
+
+		select *
+		from dir_user
+		where parent_id = #{dirParentId}
+
+
+	</select>
+
+	<update id="updateFileUserLink" parameterType="com.cc01cc.spring.pojo.File">
+
+		update file_local
+		set file_user_link = #{fileUserLink}
+		where pk_file_md5 = #{fileMD5}
+
+	</update>
+
+	<update id="updateDirName" parameterType="com.cc01cc.spring.pojo.Dir">
+
+		update dir_user
+		set dir_name = #{dirName}
+		where pk_dir_id = #{dirId}
+
+	</update>
+
+
+	<update id="updateFileName" parameterType="com.cc01cc.spring.pojo.File">
+
+		update file_user
+		set file_name = #{fileName}
+		where pk_file_id = #{fileId}
+
+	</update>
+
+	<update id="updateFileSharePassword" parameterType="com.cc01cc.spring.pojo.File">
+
+		update file_user
+		set share_password = #{fileSharePassword}
+		where pk_file_id = #{fileId}
+
+	</update>
+
+	<update id="updateUserRoomUsed" parameterType="com.cc01cc.spring.pojo.User">
+
+		update user_account
+		set user_room_used = #{userRoomUsed}
+		where pk_user_id = #{userId}
+
+	</update>
+
+	<delete id="deleteFileByFileId" parameterType="String">
+
+		delete from file_user
+		where pk_file_id = #{fileId}
+
+	</delete>
+
+	<delete id="deleteFileByFileMD5" parameterType="String">
+
+		delete from file_local
+		where pk_file_md5 = #{fileMD5}
+
+	</delete>
+
+	<!-- 执行此操作之前，务必确保目录内容被清空 -->
+	<delete id="deleteDirByDirId" parameterType="String">
+
+		delete from dir_user
+		where pk_dir_id = #{dirId}
+
+	</delete>
 </mapper>

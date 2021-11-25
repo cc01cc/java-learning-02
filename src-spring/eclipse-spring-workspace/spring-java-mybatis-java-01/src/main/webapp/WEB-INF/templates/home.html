@@ -10,13 +10,25 @@
 
 <body>
     <h1>用户页</h1>
-    <span th:each="pwd,pwdStat:${pwd_list}">
-        <a th:href="@{/dir_forward(dir_context_id=${pwd.dirId})}">
-            <span th:text=${pwd.dirName}></span>
-        </a>
-        <!-- 使用 ${''} 可以表示文本 -->
-        <span th:text=${'>'}></span>
-    </span>
+
+    <div>
+
+        <span>已用空间：</span><span th:text=${user_room_used}></span>
+        <br/>
+        <span>可用空间：</span><span th:text=${user_room_total}></span>
+
+    </div>
+
+    <div>
+        <span th:each="pwd,pwdStat:${pwd_list}">
+            <a th:href="@{/dir_forward(dir_context_id=${pwd.dirId})}">
+                <span th:text=${pwd.dirName}></span>
+            </a>
+            <!-- 使用 ${''} 可以表示文本 -->
+            <span th:text=${'>'}></span>
+        </span>
+    </div>
+
     <div>
         <form th:action="@{/file_upload}" method="post" id="file-upload-form" enctype="multipart/form-data">
             <!-- <form> -->
@@ -57,9 +69,13 @@
                         <tr th:each="file,fileStat:${file_list}">
                             <td><span th:text="${fileStat.count}"></span></td>
                             <td><span th:text="${file.fileName}"></span></td>
-                            <td><a th:href="@{/file-share(file_context_id=${file.fileId})}" th:text="(${file.fileSharePassword}==null)?${'生成'}:${file.fileSharePassword}" name="file_share_password"></a></td>
-                            <td><a th:href="@{/file-download(file_context_id=${file.fileId})}"><span th:text="下载"></span></a></td>
-                            <td><a th:href="@{/file-delete(file_context_id=${file.fileId})}"><span th:text="删除"></span></a></td>
+                            <td><a th:href="@{/file-share(file_context_id=${file.fileId})}"
+                                    th:text="(${file.fileSharePassword}==null)?${'生成'}:${file.fileSharePassword}"
+                                    name="file_share_password"></a></td>
+                            <td><a th:href="@{/file-download(file_context_id=${file.fileId})}"><span
+                                        th:text="下载"></span></a></td>
+                            <td><a th:href="@{/file-delete(file_context_id=${file.fileId})}"><span
+                                        th:text="删除"></span></a></td>
                             <td>
                                 <form th:action="@{/file_name_update(file_context_id=${file.fileId})}" method="post">
                                     <input type="text" name="new_file_name">
@@ -96,8 +112,10 @@
                     <tbody>
                         <tr th:each="dir,dirStat:${dir_list}">
                             <td><span th:text="${dirStat.count}"></span></td>
-                            <td><a th:href="@{/dir_forward(dir_context_id=${dir.dirId})}"><span th:text="${dir.dirName}"></span></a></td>
-                            <td><a th:href="@{/dir-delete(dir_context_id=${dir.dirId})}"><span th:text="删除"></span></a></td>
+                            <td><a th:href="@{/dir_forward(dir_context_id=${dir.dirId})}"><span
+                                        th:text="${dir.dirName}"></span></a></td>
+                            <td><a th:href="@{/dir-delete(dir_context_id=${dir.dirId})}"><span th:text="删除"></span></a>
+                            </td>
                             <td>
                                 <form th:action="@{/dir_name_update(dir_context_id=${dir.dirId})}" method="post">
                                     <input type="text" name="new_dir_name">
@@ -115,10 +133,12 @@
     <script>
         // Thank satazor, src changed from https://github.com/satazor/js-spark-md5
         var file_context_md5 = document.getElementById('file-content-md5');
+        var file_size;
         document.getElementById('input-file-context-01').addEventListener('change', function () {
             file_context_md5.innerHTML = 'Hmm..Reading file...'
             var blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice,
                 file = this.files[0],
+                file_size = file.size,
                 chunkSize = 2097152,                             // Read in chunks of 2MB
                 chunks = Math.ceil(file.size / chunkSize),
                 currentChunk = 0,
@@ -139,16 +159,21 @@
                     console.info('computed hash', md5);  // Compute hash
                     file_context_md5.innerHTML = md5;
 
+                    // var true_str = "true";
 
                     $.ajax({
                         url: './home/upload-md5-front',
                         dataType: "json",
                         type: 'post',
                         contentType: 'application/json',
-                        data: JSON.stringify({ "md5": md5 }),
+                        data: JSON.stringify({ "md5": md5, "file_size": file_size }),
                         success: function (data) {
-                            if (data != null) {
+                            console.log(data);
+                            // TODO 这儿传参需要处理
+                            if (data!=null) {
                                 document.getElementById("button-file-upload-01").disabled = false;
+                            }else{
+                                file_context_md5.innerHTML = 'oops, something went wrong.(Check the capacity!)'
                             }
                         },
                         error: function () {
