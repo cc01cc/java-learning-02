@@ -31,5 +31,43 @@ package com.cco1cc.springboot.entity;
  * 
  */
 public class User {
-
+    String userAccount;
+//    String userLocation;
+    String userpassword;
+    /**
+     * @return the userAccount
+     */
+    public String getUserAccount() {
+        return userAccount;
+    }
+    /**
+     * @param userAccount the userAccount to set
+     */
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
+    }
+    /**
+     * @return the userpassword
+     */
+    public String getUserpassword() {
+        return userpassword;
+    }
+    /**
+     * @param userpassword the userpassword to set
+     */
+    public void setUserpassword(String userpassword) {
+        this.userpassword = userpassword;
+    }
+    /** 
+     * <p>Title: toString</p>
+     * <p>Description: </p>
+     * @return
+     * @see java.lang.Object#toString()
+     *
+     */
+    @Override
+    public String toString() {
+        return "User [userAccount=" + userAccount + ", userpassword=" + userpassword + "]";
+    }
+    
 }
