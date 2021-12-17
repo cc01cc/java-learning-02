@@ -24,39 +24,49 @@
 
 package com.cco1cc.springboot.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author cc01cc
  * @date 2021-12-16 
  * @Description: TODO
  * 
  */
-public class User {
-    String userAccount;
+@Entity
+@Table(name = "USER_INFO")
+public class UserInfo {
+    @Id
+    @Column(name="PK_USER_ACCOUNT")
+    String pkUserAccount;
 //    String userLocation;
-    String userpassword;
+    @Column(name="USER_PASSWORD")
+    String userPassword;
     /**
      * @return the userAccount
      */
     public String getUserAccount() {
-        return userAccount;
+        return pkUserAccount;
     }
     /**
      * @param userAccount the userAccount to set
      */
     public void setUserAccount(String userAccount) {
-        this.userAccount = userAccount;
+        this.pkUserAccount = userAccount;
     }
     /**
      * @return the userpassword
      */
     public String getUserpassword() {
-        return userpassword;
+        return userPassword;
     }
     /**
      * @param userpassword the userpassword to set
      */
     public void setUserpassword(String userpassword) {
-        this.userpassword = userpassword;
+        this.userPassword = userpassword;
     }
     /** 
      * <p>Title: toString</p>
@@ -67,7 +77,7 @@ public class User {
      */
     @Override
     public String toString() {
-        return "User [userAccount=" + userAccount + ", userpassword=" + userpassword + "]";
+        return "User [userAccount=" + pkUserAccount + ", userpassword=" + userPassword + "]";
     }
     
 }
