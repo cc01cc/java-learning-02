@@ -10,7 +10,7 @@
 		<version>2.6.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cc01cc.spring</groupId>
+	<groupId>com.cc01cc.springboot</groupId>
 	<artifactId>springboot-jpa-01</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>springboot-jpa-01</name>

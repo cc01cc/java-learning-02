@@ -36,7 +36,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "USER_INFO")
+@Table(name = "T_USER_INFO")
 public class UserInfo {
     @Id
     @Column(name="PK_USER_ACCOUNT")
@@ -44,6 +44,8 @@ public class UserInfo {
 //    String userLocation;
     @Column(name="USER_PASSWORD")
     String userPassword;
+    @Column(name="USER_HOBBY")
+    byte userHobby;
     /**
      * @return the userAccount
      */
@@ -77,7 +79,44 @@ public class UserInfo {
      */
     @Override
     public String toString() {
-        return "User [userAccount=" + pkUserAccount + ", userpassword=" + userPassword + "]";
+        return "UserInfo [pkUserAccount=" + pkUserAccount + ", userPassword=" + userPassword
+                + ", userHobby=" + userHobby + "]";
+    }
+    /**
+     * @return the pkUserAccount
+     */
+    public String getPkUserAccount() {
+        return pkUserAccount;
+    }
+    /**
+     * @param pkUserAccount the pkUserAccount to set
+     */
+    public void setPkUserAccount(String pkUserAccount) {
+        this.pkUserAccount = pkUserAccount;
+    }
+    /**
+     * @return the userPassword
+     */
+    public String getUserPassword() {
+        return userPassword;
+    }
+    /**
+     * @param userPassword the userPassword to set
+     */
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+    /**
+     * @return the userHobby
+     */
+    public byte getUserHobby() {
+        return userHobby;
+    }
+    /**
+     * @param userHobby the userHobby to set
+     */
+    public void setUserHobby(byte userHobby) {
+        this.userHobby = userHobby;
     }
     
 }

@@ -1,11 +1,11 @@
 [INFO] Scanning for projects...
 [INFO] 
-[INFO] ----------------< com.cc01cc.spring:springboot-jpa-01 >-----------------
+[INFO] ----------------< com.cc01cc.springboot:springboot-jpa-01 >-----------------
 [INFO] Building springboot-jpa-01 0.0.1-SNAPSHOT
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-dependency-plugin:3.2.0:tree (default-cli) @ springboot-jpa-01 ---
-[INFO] com.cc01cc.spring:springboot-jpa-01:jar:0.0.1-SNAPSHOT
+[INFO] com.cc01cc.springboot:springboot-jpa-01:jar:0.0.1-SNAPSHOT
 [INFO] +- org.springframework.boot:spring-boot-starter-data-jdbc:jar:2.6.1:compile
 [INFO] |  \- org.springframework.data:spring-data-jdbc:jar:2.3.0:compile
 [INFO] |     +- org.springframework.data:spring-data-relational:jar:2.3.0:compile
