@@ -14,44 +14,59 @@
  *   limitations under the License.
  */
 
-
- /**
- *   @Title: HomeHobbytoStrTest.java
- *   @Description: TODO
- *   @author cc01cc
- *   @date 2021-12-18 
- */  
+/**
+*   @Title: HomeHobbytoStrTest.java
+*   @Description: TODO
+*   @author cc01cc
+*   @date 2021-12-18 
+*/
 
 package com.cc01cc.springboot.service;
 
+import static org.junit.Assert.assertEquals;
+
+import org.aspectj.lang.annotation.After;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.cco1cc.springboot.service.HomeService;
+import com.cco1cc.springboot.SpringJpaInitialApplication;
+import com.cco1cc.springboot.service.HomeServiceImpl;
 
 /**
- * @author cc01cc
- * @date 2021-12-18 
+ * @author       cc01cc
+ * @date         2021-12-18
  * @Description: TODO
  * 
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@Transactional
+@SpringBootTest(classes=SpringJpaInitialApplication.class)
+//@Transactional
 public class HomeHobbytoStrTest {
-    
-    @Autowired
-    private HomeService homeService;
-//    @MockBean
-//    private CreditService creditService;
-    public void testHomeHobbytoStr() {
-    String expectedResult = "游戏";
-    String result = homeService.
-    }
-    
+//    public HomeHobbytoStrTest() {
+//        System.out.println("This is HomeHobbytoStrTest.class");
+//    }
+    String result;
+     @Autowired
+    private HomeServiceImpl homeServiceImpl;
 
+    // @MockBean
+    // private CreditService creditService;
+    @Test
+    public void testHomeHobbytoStr() {
+        System.out.println("test start");
+        String expectedResult = "游戏";
+        byte   b              = 1;
+        result         = homeServiceImpl.hobbyToStr(b);
+        System.out.println(result);
+        assertEquals(expectedResult, homeServiceImpl.hobbyToStr(b));
+    }
+//    @After(value = "")
+//    public void printResult() {
+//        System.out.println("输出result"+result);
+//    }
 }

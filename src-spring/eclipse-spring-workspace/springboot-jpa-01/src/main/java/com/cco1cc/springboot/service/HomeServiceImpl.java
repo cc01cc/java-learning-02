@@ -38,20 +38,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class HomeServiceImpl implements HomeService {
 
-    private ArrayList<String> hobbyList;
+    private ArrayList<String> hobbyList= new ArrayList<String>();
 
-    public HomeServiceImpl() {
-        List<String> listTemp = Arrays.asList("篮球", "足球", "羽毛球", "游戏");
-        this.hobbyList.addAll(listTemp);
-    }
+//    public HomeServiceImpl() {
+//        List<String> listTemp = Arrays.asList("篮球", "足球", "羽毛球", "游戏");
+//        this.hobbyList.addAll(listTemp);
+//    }
 
     public ArrayList<String> hobbyToList(byte byteHobby) {
 
+        System.out.println("这里是 hobbyToList 方法");
+        List<String> listTemp = Arrays.asList("篮球", "足球", "羽毛球", "游戏");
+        this.hobbyList.addAll(listTemp);
+        
+//        this.hobbyList.add("游戏");
+        System.out.println("hobbyList 添加成功");
         ArrayList<String> listHobby = new ArrayList<String>();
 
-        for (byte i = (byte) hobbyList.size(); i < hobbyList.size(); i--) {
-            if (((byteHobby >> i) & 1) == byteHobby) {
-                listHobby.add(hobbyList.get(i));
+        for (byte i = (byte) (hobbyList.size()-1); i > -1; i--) {
+            if (((byteHobby >> (int)i) & 1) == byteHobby) {
+                listHobby.add(hobbyList.get((int) i));
             }
         }
         return listHobby;
@@ -71,10 +77,10 @@ public class HomeServiceImpl implements HomeService {
         return strHobby;
     }
 
-    @Override
-    public String getHobby() {
-        return null;
-    }
+//    @Override
+//    public String getHobby() {
+//        return null;
+//    }
     // /**
     // * @return the hobbyList
     // */

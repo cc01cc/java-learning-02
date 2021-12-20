@@ -32,5 +32,5 @@ package com.cco1cc.springboot.service;
  */
 public interface HomeService {
     
-    public String getHobby();
+//    public String getHobby();
 }
