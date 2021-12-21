@@ -38,26 +38,42 @@ import org.springframework.stereotype.Service;
 @Service
 public class HomeServiceImpl implements HomeService {
 
-    private ArrayList<String> hobbyList= new ArrayList<String>();
+    private ArrayList<String> hobbyList = new ArrayList<String>();
 
-//    public HomeServiceImpl() {
-//        List<String> listTemp = Arrays.asList("篮球", "足球", "羽毛球", "游戏");
-//        this.hobbyList.addAll(listTemp);
-//    }
+    // public HomeServiceImpl() {
+    // List<String> listTemp = Arrays.asList("篮球", "足球", "羽毛球", "游戏");
+    // this.hobbyList.addAll(listTemp);
+    // }
 
     public ArrayList<String> hobbyToList(byte byteHobby) {
-
+        hobbyList = new ArrayList<String>();
         System.out.println("这里是 hobbyToList 方法");
         List<String> listTemp = Arrays.asList("篮球", "足球", "羽毛球", "游戏");
         this.hobbyList.addAll(listTemp);
-        
-//        this.hobbyList.add("游戏");
+        System.out.println("hobbyList = " + hobbyList);
+        // this.hobbyList.add("游戏");
         System.out.println("hobbyList 添加成功");
         ArrayList<String> listHobby = new ArrayList<String>();
 
-        for (byte i = (byte) (hobbyList.size()-1); i > -1; i--) {
-            if (((byteHobby >> (int)i) & 1) == byteHobby) {
-                listHobby.add(hobbyList.get((int) i));
+        // for (byte i = (byte) (hobbyList.size()-1); i > -1; i--) {
+        // System.out.println("byteHobby >> (int)i = "+ (byteHobby >> (int)i));
+        // System.out.println("byteHobby >> (int)i & 1 = "+ (byteHobby >> (int)i & 1));
+        // System.out.println("byteHobby >> (int)i & & ((int)Math.pow(2,
+        // hobbyList.size())-1) = "+ ((byteHobby >> (int)i) & ((int)Math.pow(2,
+        // hobbyList.size())-1)));
+        //
+        // if (((byteHobby >> (int)i) & ((int)Math.pow(2, hobbyList.size())-1)) ==
+        // (byteHobby >> (int)i)) {
+        // int j = hobbyList.size() - 1 - (int)i;
+        //// System.out.println("hobbyList.size()="+hobbyList.size()+" j="+j);
+        // listHobby.add(hobbyList.get(j));
+        // }
+        // }
+        for (int i = hobbyList.size() - 1; i > -1; i--) {
+            System.out.println("byteHobby >> i = " + (byteHobby >> i));
+            if (((byteHobby >> i) & 1) == 1) {
+                int j = hobbyList.size() - 1 - i;
+                listHobby.add(hobbyList.get(j));
             }
         }
         return listHobby;
@@ -65,22 +81,22 @@ public class HomeServiceImpl implements HomeService {
 
     public String hobbyToStr(byte byteHobby) {
         ArrayList<String> listHobby = hobbyToList(byteHobby);
-
+        System.out.println("listHobby= " + listHobby);
         if (listHobby.isEmpty()) return null;
 
         if (listHobby.size() == 1) return listHobby.get(0);
 
         String strHobby = listHobby.get(0);
         for (int i = 1; i < listHobby.size(); i++) {
-            strHobby = strHobby + ',' + listHobby.get(i);
+            strHobby = strHobby + ", " + listHobby.get(i);
         }
         return strHobby;
     }
 
-//    @Override
-//    public String getHobby() {
-//        return null;
-//    }
+    // @Override
+    // public String getHobby() {
+    // return null;
+    // }
     // /**
     // * @return the hobbyList
     // */

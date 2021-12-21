@@ -25,10 +25,9 @@ package com.cc01cc.springboot.service;
 
 import static org.junit.Assert.assertEquals;
 
-import org.aspectj.lang.annotation.After;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+//import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-//import org.junit.Test;
 //import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,11 +58,12 @@ public class HomeHobbytoStrTest {
     @Test
     public void testHomeHobbytoStr() {
         System.out.println("test start");
-        String expectedResult = "游戏";
-        byte   b              = 1;
+        String expectedResult = "篮球, 游戏";
+        byte   b              = 9;
+//        System.out.println("byte b = "+b);
         result         = homeServiceImpl.hobbyToStr(b);
         System.out.println(result);
-        assertEquals(expectedResult, homeServiceImpl.hobbyToStr(b));
+        assertEquals(expectedResult, result);
     }
 //    @After(value = "")
 //    public void printResult() {
