@@ -23,10 +23,9 @@
 
 package com.cco1cc.springboot.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.cco1cc.springboot.entity.UserHobby;
 import com.cco1cc.springboot.entity.UserInfo;
 
 /**
@@ -35,9 +34,9 @@ import com.cco1cc.springboot.entity.UserInfo;
  * @Description: TODO
  * 
  */
-public interface UserHobbyRepository extends JpaRepository<UserInfo, Integer> {
+public interface UserHobbyRepository extends JpaRepository<UserHobby, Integer> {
 
-    public UserInfo findbyUserAccount(String userAccount);
+    public UserHobby findbyUserAccount(String userAccount);
 
 //    public boolean saveUserInfo(UserInfo userInfo);
 //
