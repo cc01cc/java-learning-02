@@ -34,7 +34,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.cco1cc.springboot.SpringJpaInitialApplication;
-import com.cco1cc.springboot.service.HomeServiceImpl;
+import com.cco1cc.springboot.service.HomeServiceImpl_Single_repo;
 
 /**
  * @author       cc01cc
@@ -51,7 +51,7 @@ public class HomeHobbytoStrTest {
 //    }
     String result;
      @Autowired
-    private HomeServiceImpl homeServiceImpl;
+    private HomeServiceImpl_Single_repo homeServiceImpl_Single_repo;
 
     // @MockBean
     // private CreditService creditService;
@@ -61,7 +61,7 @@ public class HomeHobbytoStrTest {
         String expectedResult = "篮球, 游戏";
         byte   b              = 9;
 //        System.out.println("byte b = "+b);
-        result         = homeServiceImpl.hobbyToStr(b);
+        result         = homeServiceImpl_Single_repo.hobbyToStr(b);
         System.out.println(result);
         assertEquals(expectedResult, result);
     }

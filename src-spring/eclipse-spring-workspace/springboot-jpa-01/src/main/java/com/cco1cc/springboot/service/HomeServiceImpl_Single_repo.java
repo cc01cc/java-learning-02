@@ -15,7 +15,7 @@
  */
 
 /**
-*   @Title: HomeServiceImpl.java
+*   @Title: HomeServiceImpl_Single_repo.java
 *   @Description: TODO
 *   @author cc01cc
 *   @date 2021-12-18 
@@ -36,23 +36,23 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class HomeServiceImpl implements HomeService {
+public class HomeServiceImpl_Single_repo implements HomeService {
 
     private ArrayList<String> hobbyList = new ArrayList<String>();
 
-    // public HomeServiceImpl() {
+    // public HomeServiceImpl_Single_repo() {
     // List<String> listTemp = Arrays.asList("篮球", "足球", "羽毛球", "游戏");
     // this.hobbyList.addAll(listTemp);
     // }
 
     public ArrayList<String> hobbyToList(byte byteHobby) {
         hobbyList = new ArrayList<String>();
-        System.out.println("这里是 hobbyToList 方法");
+        // System.out.println("这里是 hobbyToList 方法");
         List<String> listTemp = Arrays.asList("篮球", "足球", "羽毛球", "游戏");
         this.hobbyList.addAll(listTemp);
-        System.out.println("hobbyList = " + hobbyList);
+        // System.out.println("hobbyList = " + hobbyList);
         // this.hobbyList.add("游戏");
-        System.out.println("hobbyList 添加成功");
+        // System.out.println("hobbyList 添加成功");
         ArrayList<String> listHobby = new ArrayList<String>();
 
         // for (byte i = (byte) (hobbyList.size()-1); i > -1; i--) {

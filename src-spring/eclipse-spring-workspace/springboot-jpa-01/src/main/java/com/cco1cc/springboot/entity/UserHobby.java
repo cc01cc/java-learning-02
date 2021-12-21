@@ -16,10 +16,10 @@
 
 
  /**
- *   @Title: User.java
+ *   @Title: UserHobby.java
  *   @Description: TODO
  *   @author cc01cc
- *   @date 2021-12-16 
+ *   @date 2021-12-21 
  */  
 
 package com.cco1cc.springboot.entity;
@@ -31,45 +31,20 @@ import javax.persistence.Table;
 
 /**
  * @author cc01cc
- * @date 2021-12-16 
+ * @date 2021-12-21 
  * @Description: TODO
  * 
  */
 @Entity
-@Table(name = "T_USER_INFO")
-public class UserInfo {
+@Table(name = "T_USER_HOBBY")
+public class UserHobby {
+    private static final long serialVersionUID = 1l;
     @Id
     @Column(name="PK_USER_ACCOUNT")
     String pkUserAccount;
-//    String userLocation;
-    @Column(name="USER_PASSWORD")
-    String userPassword;
-//    @Column(name="USER_HOBBY")
-//    byte userHobby;
-    /**
-     * @return the userAccount
-     */
-    public String getUserAccount() {
-        return pkUserAccount;
-    }
-    /**
-     * @param userAccount the userAccount to set
-     */
-    public void setUserAccount(String userAccount) {
-        this.pkUserAccount = userAccount;
-    }
-    /**
-     * @return the userpassword
-     */
-    public String getUserpassword() {
-        return userPassword;
-    }
-    /**
-     * @param userpassword the userpassword to set
-     */
-    public void setUserpassword(String userpassword) {
-        this.userPassword = userpassword;
-    }
+    @Id
+    @Column(name="PK_USER_HOBBY")
+    String pkUserHobby;
     /**
      * @return the pkUserAccount
      */
@@ -83,30 +58,23 @@ public class UserInfo {
         this.pkUserAccount = pkUserAccount;
     }
     /**
-     * @return the userPassword
+     * @return the pkUserHobby
      */
-    public String getUserPassword() {
-        return userPassword;
+    public String getPkUserHobby() {
+        return pkUserHobby;
     }
     /**
-     * @param userPassword the userPassword to set
+     * @param pkUserHobby the pkUserHobby to set
      */
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setPkUserHobby(String pkUserHobby) {
+        this.pkUserHobby = pkUserHobby;
     }
-//    /**
-//     * @return the userHobby
-//     */
-//    public byte getUserHobby() {
-//        return userHobby;
-//    }
-//    /**
-//     * @param userHobby the userHobby to set
-//     */
-//    public void setUserHobby(byte userHobby) {
-//        this.userHobby = userHobby;
-//    }
-//    
+    /**
+     * @return the serialversionuid
+     */
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
     /** 
      * <p>Title: toString</p>
      * <p>Description: </p>
@@ -116,7 +84,8 @@ public class UserInfo {
      */
     @Override
     public String toString() {
-        return "UserInfo [pkUserAccount=" + pkUserAccount + ", userPassword=" + userPassword + "]";
+        return "UserHobby [pkUserAccount=" + pkUserAccount + ", pkUserHobby=" + pkUserHobby + "]";
     }
     
+
 }
