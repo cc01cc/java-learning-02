@@ -35,8 +35,8 @@ import javax.persistence.Table;
  * @Description: TODO
  * 
  */
-@Entity
-@Table(name = "T_USER_HOBBY")
+//@Entity
+//@Table(name = "T_USER_HOBBY")
 public class UserHobby {
     private static final long serialVersionUID = 1l;
     @Id

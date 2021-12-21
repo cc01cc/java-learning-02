@@ -10,5 +10,11 @@
     <h1>登录账号</h1>
     <!-- <a th:href="@{/login}">登录</a>
     <a th:href="@{/register}">注册</a> -->
+    <form th:action="@{/login_userInfo}" th:object="${userInfo}" method="post">
+        <div><span>用户名</span><input type="text" name="" id=""></div>
+        <div><span>密码</span><input type="password" name="" id=""></div>
+        <button type="submit">登录</button>
+        <button type="reset">重置</button>
+    </form>
 </body>
 </html>

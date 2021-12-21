@@ -34,11 +34,11 @@ import com.cco1cc.springboot.entity.UserInfo;
  * @Description: TODO
  * 
  */
-public interface UserHobbyRepository extends JpaRepository<UserHobby, Integer> {
-
-    public UserHobby findbyUserAccount(String userAccount);
-
-//    public boolean saveUserInfo(UserInfo userInfo);
+//public interface UserHobbyRepository extends JpaRepository<UserHobby, Integer> {
 //
-//    public List<UserInfo> listUserInfobyTable(String tableName);
-}
+//    public UserHobby findbyUserAccount(String userAccount);
+//
+////    public boolean saveUserInfo(UserInfo userInfo);
+////
+////    public List<UserInfo> listUserInfobyTable(String tableName);
+//}

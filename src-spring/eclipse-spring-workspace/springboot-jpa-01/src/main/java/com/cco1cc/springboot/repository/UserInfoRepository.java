@@ -37,7 +37,7 @@ import com.cco1cc.springboot.entity.UserInfo;
  */
 public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 
-    public UserInfo findbyUserAccount(String userAccount);
+//    public UserInfo findbyUserAccount(String userAccount);
 
 //    public boolean saveUserInfo(UserInfo userInfo);
 //

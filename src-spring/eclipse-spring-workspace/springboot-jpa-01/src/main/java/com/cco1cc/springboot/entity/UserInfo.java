@@ -39,48 +39,38 @@ import javax.persistence.Table;
 @Table(name = "T_USER_INFO")
 public class UserInfo {
     @Id
-    @Column(name="PK_USER_ACCOUNT")
-    String pkUserAccount;
+    @Column(name="PK_USER_INFO_ID")
+    int pkUserInfoId;
+    @Column(name="USER_ACCOUNT")
+    String userAccount;
 //    String userLocation;
     @Column(name="USER_PASSWORD")
     String userPassword;
 //    @Column(name="USER_HOBBY")
 //    byte userHobby;
     /**
+     * @return the pkUserInfoId
+     */
+    public int getPkUserInfoId() {
+        return pkUserInfoId;
+    }
+    /**
+     * @param pkUserInfoId the pkUserInfoId to set
+     */
+    public void setPkUserInfoId(int pkUserInfoId) {
+        this.pkUserInfoId = pkUserInfoId;
+    }
+    /**
      * @return the userAccount
      */
     public String getUserAccount() {
-        return pkUserAccount;
+        return userAccount;
     }
     /**
      * @param userAccount the userAccount to set
      */
     public void setUserAccount(String userAccount) {
-        this.pkUserAccount = userAccount;
-    }
-    /**
-     * @return the userpassword
-     */
-    public String getUserpassword() {
-        return userPassword;
-    }
-    /**
-     * @param userpassword the userpassword to set
-     */
-    public void setUserpassword(String userpassword) {
-        this.userPassword = userpassword;
-    }
-    /**
-     * @return the pkUserAccount
-     */
-    public String getPkUserAccount() {
-        return pkUserAccount;
-    }
-    /**
-     * @param pkUserAccount the pkUserAccount to set
-     */
-    public void setPkUserAccount(String pkUserAccount) {
-        this.pkUserAccount = pkUserAccount;
+        this.userAccount = userAccount;
     }
     /**
      * @return the userPassword
@@ -94,19 +84,6 @@ public class UserInfo {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
-//    /**
-//     * @return the userHobby
-//     */
-//    public byte getUserHobby() {
-//        return userHobby;
-//    }
-//    /**
-//     * @param userHobby the userHobby to set
-//     */
-//    public void setUserHobby(byte userHobby) {
-//        this.userHobby = userHobby;
-//    }
-//    
     /** 
      * <p>Title: toString</p>
      * <p>Description: </p>
@@ -116,7 +93,9 @@ public class UserInfo {
      */
     @Override
     public String toString() {
-        return "UserInfo [pkUserAccount=" + pkUserAccount + ", userPassword=" + userPassword + "]";
+        return "UserInfo [pkUserInfoId=" + pkUserInfoId + ", userAccount=" + userAccount
+                + ", userPassword=" + userPassword + "]";
     }
+    
     
 }

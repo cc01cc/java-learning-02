@@ -24,7 +24,11 @@
 package com.cco1cc.springboot.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.cco1cc.springboot.entity.UserInfo;
 
 /**
  * @author       cc01cc
@@ -36,7 +40,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RegisterController {
 
     @RequestMapping("/register")
-    public String getRegister() {
+    public String getRegister(Model model) {
+        // 必须对 user_info 进行初始化
+        model.addAttribute("user_info", new UserInfo());
+        System.out.println("This is getRegister()");
+        return "register";
+    }
+    
+    
+
+    @RequestMapping("/register_userInfo")
+    public String register(@ModelAttribute("user_info") UserInfo userInfo, Model model) {
+        String registerInfo;
+        
+        
+        
+        
+        
+        
+        model.addAttribute("register_info", registerInfo);
         return "register";
     }
 }
