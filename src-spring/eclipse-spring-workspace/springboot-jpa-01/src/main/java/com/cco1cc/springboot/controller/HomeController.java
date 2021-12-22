@@ -16,24 +16,28 @@
 
 
  /**
- *   @Title: HomeService.java
+ *   @Title: HomeController.java
  *   @Description: TODO
  *   @author cc01cc
- *   @date 2021-12-18 
+ *   @date 2021-12-22 
  */  
 
-package com.cco1cc.springboot.service;
+package com.cco1cc.springboot.controller;
 
-import com.cco1cc.springboot.entity.UserInfo;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author cc01cc
- * @date 2021-12-18 
+ * @date 2021-12-22 
  * @Description: TODO
  * 
  */
-public interface HomeService {
-    
-//    public String getHobby();
-    public boolean addUserInfo(UserInfo userInfo);
+@Controller
+public class HomeController {
+
+    @RequestMapping("/home")
+    public String getHome() {
+        return "home";
+    }
 }

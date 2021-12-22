@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cco1cc.springboot.entity.UserInfo;
-import com.cco1cc.springboot.service.HomeService;
+import com.cco1cc.springboot.service.RegisterService;
 
 /**
  * @author       cc01cc
@@ -51,13 +51,13 @@ public class RegisterController {
 
     // TODO: @Autowired 注解无法在函数内部使用 why?
     @Autowired
-    HomeService homeService;
+    RegisterService registerService;
 
     @RequestMapping("/register_userInfo")
     public String register(@ModelAttribute("user_info") UserInfo userInfo, Model model) {
         String registerInfo;
 
-        if(homeService.addUserInfo(userInfo)) registerInfo = "账户注册成功";
+        if(registerService.addUserInfo(userInfo)) registerInfo = "账户注册成功";
         else registerInfo = "账户注册失败";
         model.addAttribute("register_info", registerInfo);
         return "register";

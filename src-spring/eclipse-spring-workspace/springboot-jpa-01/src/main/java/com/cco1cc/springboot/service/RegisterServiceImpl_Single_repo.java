@@ -1,3 +1,4 @@
+package com.cco1cc.springboot.service;
 ///**  
 // *   Copyright 2021 cc01cc
 // *
@@ -36,7 +37,7 @@
 // * 
 // */
 //@Service
-//public class HomeServiceImpl_Single_repo implements HomeService {
+//public class HomeServiceImpl_Single_repo implements RegisterService {
 //
 //    private ArrayList<String> hobbyList = new ArrayList<String>();
 //
