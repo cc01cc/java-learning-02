@@ -16,24 +16,41 @@
 
 
  /**
- *   @Title: HomeService.java
+ *   @Title: HomeServiceImpl.java
  *   @Description: TODO
  *   @author cc01cc
- *   @date 2021-12-18 
+ *   @date 2021-12-22 
  */  
 
 package com.cco1cc.springboot.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.cco1cc.springboot.entity.UserInfo;
+import com.cco1cc.springboot.repository.UserInfoRepository;
 
 /**
  * @author cc01cc
- * @date 2021-12-18 
+ * @date 2021-12-22 
  * @Description: TODO
  * 
  */
-public interface HomeService {
+@Service
+public class HomeServiceImpl implements HomeService {
+
+    @Autowired
+    UserInfoRepository userInfoRepository;
     
-//    public String getHobby();
-    public boolean addUserInfo(UserInfo userInfo);
+    @Override
+    public boolean addUserInfo(UserInfo userInfo) {
+        try {
+            userInfoRepository.save(userInfo);
+        }catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        return true;
+    }
 }
