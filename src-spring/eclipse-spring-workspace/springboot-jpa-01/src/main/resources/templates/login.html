@@ -10,9 +10,11 @@
     <h1>登录账号</h1>
     <!-- <a th:href="@{/login}">登录</a>
     <a th:href="@{/register}">注册</a> -->
-    <form th:action="@{/login_userInfo}" th:object="${userInfo}" method="post">
-        <div><span>用户名</span><input type="text" name="" id=""></div>
-        <div><span>密码</span><input type="password" name="" id=""></div>
+    <form th:action="@{/login_userInfo}" th:object="${user_info}" method="post">
+        <!-- TODO 这儿 userAccount 和后端深度绑定，需要考虑怎么解耦 -->
+        <div><span>用户名</span><input type="text" name="" id="" th:field="*{userAccount}"></div>
+        <div><span>密码</span><input type="password" name="" id="" th:field="*{userPassword}"></div>
+        <div><span th:text="${login_info}"></span></div>
         <button type="submit">登录</button>
         <button type="reset">重置</button>
     </form>

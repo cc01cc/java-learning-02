@@ -23,9 +23,8 @@
 
 package com.cco1cc.springboot.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.cco1cc.springboot.entity.UserInfo;
 
@@ -42,4 +41,9 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 //    public boolean saveUserInfo(UserInfo userInfo);
 //
 //    public List<UserInfo> listUserInfobyTable(String tableName);
+
+    @Query("select userInfo from UserInfo userInfo where userInfo.pkUserInfoId = ?1")
+    public UserInfo findByPkUserInfoId(int userId);
+    
+    public UserInfo findByUserAccountAndUserPassword(String userAccount, String userPassword);
 }

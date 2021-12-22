@@ -15,20 +15,19 @@
  */
 
 /**
-*   @Title: HomeController.java
+*   @Title: HomeService.java
 *   @Description: TODO
 *   @author cc01cc
 *   @date 2021-12-22 
 */
 
-package com.cco1cc.springboot.controller;
+package com.cco1cc.springboot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import java.util.List;
+
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cco1cc.springboot.service.HomeService;
+import com.cco1cc.springboot.entity.UserInfo;
 
 /**
  * @author       cc01cc
@@ -36,15 +35,9 @@ import com.cco1cc.springboot.service.HomeService;
  * @Description: TODO
  * 
  */
-@Controller
-public class HomeController {
+public interface HomeService {
 
-    @Autowired
-    private HomeService homeService;
+    public List<UserInfo> findAll(String sortColumn);
 
-    @RequestMapping("/home")
-    public String getHome(Integer page, Model model) {
-        return homeService.findAllUserByPage(page, model);
-    }
-
+    public String findAllUserByPage(Integer page, Model model);
 }

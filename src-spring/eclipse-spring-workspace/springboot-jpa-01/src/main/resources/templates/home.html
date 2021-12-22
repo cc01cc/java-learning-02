@@ -9,14 +9,38 @@
 <body>
     <h1>主页</h1>
     <table>
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>用户名</td>
+                <td>爱好</td>
+            </tr>
+        </thead>
+        <tr th:each="userlist:${allUser}">
+            <td>
+                <span th:text="${userlist.pkUserInfoId}"></span>
+            </td>
+            <td>
+                <span th:text="${userlist.userAccount}"></span>
+            </td>
+            <td></td>
+        </tr>
         <tr>
-            <th>ID</th>
-            <th>用户名</th>
-            <th>爱好</th>
+            <td>
+                <ul>
+                    <li><a >第<span th:text="${page}"></span>页</a></li>
+                    <li><a >共<span th:text="${totalPage}"></span>页</a></li>
+                    <li><a >共<span th:text="${totalCount}"></span>条</a></li>
+                    <li><a th:href="@{home(page=${page-1})}" th:if="${page!=1}">上一页</a></li>
+                    <li><a th:href="@{home(page=${page+1})}" th:if="${page!=totalPage}">下一页</a></li>
+                </ul>
+            </td>
+
         </tr>
         <tr>
             <td>欢迎<span th:text="${session.user_account}"></span></td>
         </tr>
+
     </table>
 </body>
 </html>
