@@ -23,12 +23,16 @@
 
 package com.cco1cc.springboot.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cco1cc.springboot.entity.Hobby;
 import com.cco1cc.springboot.entity.UserInfo;
 import com.cco1cc.springboot.service.RegisterService;
 
@@ -53,11 +57,16 @@ public class RegisterController {
     @Autowired
     RegisterService registerService;
 
+    @ModelAttribute("allHobby")
+    public List<Hobby> allHobby() {
+        return Arrays.asList(Hobby.ALL);
+    }
+
     @RequestMapping("/register_userInfo")
     public String register(@ModelAttribute("user_info") UserInfo userInfo, Model model) {
         String registerInfo;
 
-        if(registerService.addUserInfo(userInfo)) registerInfo = "账户注册成功";
+        if (registerService.addUserInfo(userInfo)) registerInfo = "账户注册成功";
         else registerInfo = "账户注册失败";
         model.addAttribute("register_info", registerInfo);
         return "register";

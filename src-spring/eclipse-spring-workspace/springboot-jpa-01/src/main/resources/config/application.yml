@@ -17,3 +17,5 @@ spring:
   jackson:
     serialization:
       indent-output: true
+  messages:
+    basename = message
