@@ -14,78 +14,125 @@
  *   limitations under the License.
  */
 
-
- /**
- *   @Title: UserHobby.java
- *   @Description: TODO
- *   @author cc01cc
- *   @date 2021-12-21 
- */  
+/**
+*   @Title: UserHobby.java
+*   @Description: TODO
+*   @author cc01cc
+*   @date 2021-12-21 
+*/
 
 package com.cco1cc.springboot.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * @author cc01cc
- * @date 2021-12-21 
+ * @author       cc01cc
+ * @date         2021-12-21
  * @Description: TODO
  * 
  */
-//@Entity
-//@Table(name = "T_USER_HOBBY")
+@Entity
+@Table(name = "T_USER_HOBBY")
 public class UserHobby {
     private static final long serialVersionUID = 1l;
+
     @Id
-    @Column(name="PK_USER_ACCOUNT")
-    String pkUserAccount;
-    @Id
-    @Column(name="PK_USER_HOBBY")
-    String pkUserHobby;
+    @Column(name = "PK_USER_HOBBY_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int pkUserHobbyId;
+
+    @Column(name = "USER_ACCOUNT")
+    String userAccount;
+
+    @Column(name = "USER_HOBBY")
+    String userHobby;
+
+    @ManyToOne(cascade = {
+            CascadeType.MERGE, CascadeType.REFRESH
+    }, optional = false)
+    @JoinColumn(name = "userInfo_userAccount")
+    private UserInfo userInfo;
+
     /**
-     * @return the pkUserAccount
+     * @return the pkUserHobbyId
      */
-    public String getPkUserAccount() {
-        return pkUserAccount;
+    public int getPkUserHobbyId() {
+        return pkUserHobbyId;
     }
+
     /**
-     * @param pkUserAccount the pkUserAccount to set
+     * @param pkUserHobbyId the pkUserHobbyId to set
      */
-    public void setPkUserAccount(String pkUserAccount) {
-        this.pkUserAccount = pkUserAccount;
+    public void setPkUserHobbyId(int pkUserHobbyId) {
+        this.pkUserHobbyId = pkUserHobbyId;
     }
+
     /**
-     * @return the pkUserHobby
+     * @return the userAccount
      */
-    public String getPkUserHobby() {
-        return pkUserHobby;
+    public String getUserAccount() {
+        return userAccount;
     }
+
     /**
-     * @param pkUserHobby the pkUserHobby to set
+     * @param userAccount the userAccount to set
      */
-    public void setPkUserHobby(String pkUserHobby) {
-        this.pkUserHobby = pkUserHobby;
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
     }
+
     /**
-     * @return the serialversionuid
+     * @return the userHobby
      */
-    public static long getSerialversionuid() {
-        return serialVersionUID;
+    public String getUserHobby() {
+        return userHobby;
     }
-    /** 
-     * <p>Title: toString</p>
-     * <p>Description: </p>
+
+    /**
+     * @param userHobby the userHobby to set
+     */
+    public void setUserHobby(String userHobby) {
+        this.userHobby = userHobby;
+    }
+
+    /**
+     * @return the userInfo
+     */
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    /**
+     * @param userInfo the userInfo to set
+     */
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    /**
+     * <p>
+     * Title: toString
+     * </p>
+     * <p>
+     * Description:
+     * </p>
+     * 
      * @return
-     * @see java.lang.Object#toString()
+     * @see    java.lang.Object#toString()
      *
      */
     @Override
     public String toString() {
-        return "UserHobby [pkUserAccount=" + pkUserAccount + ", pkUserHobby=" + pkUserHobby + "]";
+        return "UserHobby [pkUserHobbyId=" + pkUserHobbyId + ", userAccount=" + userAccount
+                + ", userHobby=" + userHobby + ", userInfo=" + userInfo + "]";
     }
-    
 
 }

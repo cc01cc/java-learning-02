@@ -23,11 +23,16 @@
 
 package com.cco1cc.springboot.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,7 +44,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "T_USER_INFO")
 public class UserInfo {
-
     @Id
     @Column(name = "PK_USER_INFO_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,9 +54,14 @@ public class UserInfo {
 
     @Column(name = "USER_PASSWORD")
     String userPassword;
+    
+    private Hobby hobby;
 
     // @Column(name="USER_HOBBY")
     // byte userHobby;
+
+    @OneToMany(mappedBy = "userInfo", fetch = FetchType.EAGER, targetEntity = UserHobby.class, cascade = CascadeType.ALL)
+    private List<UserHobby> userHobby;
 
     /**
      * @return the pkUserInfoId
@@ -97,21 +106,45 @@ public class UserInfo {
     }
 
     /**
-     * <p>
-     * Title: toString
-     * </p>
-     * <p>
-     * Description:
-     * </p>
-     * 
+     * @return the userHobby
+     */
+    public List<UserHobby> getUserHobby() {
+        return userHobby;
+    }
+
+    /**
+     * @param userHobby the userHobby to set
+     */
+    public void setUserHobby(List<UserHobby> userHobby) {
+        this.userHobby = userHobby;
+    }
+
+    /** 
+     * <p>Title: toString</p>
+     * <p>Description: </p>
      * @return
-     * @see    java.lang.Object#toString()
+     * @see java.lang.Object#toString()
      *
      */
     @Override
     public String toString() {
         return "UserInfo [pkUserInfoId=" + pkUserInfoId + ", userAccount=" + userAccount
-                + ", userPassword=" + userPassword + "]";
+                + ", userPassword=" + userPassword + ", hobby=" + hobby + ", userHobby=" + userHobby
+                + "]";
+    }
+
+    /**
+     * @return the hobby
+     */
+    public Hobby getHobby() {
+        return hobby;
+    }
+
+    /**
+     * @param hobby the hobby to set
+     */
+    public void setHobby(Hobby hobby) {
+        this.hobby = hobby;
     }
 
 }

@@ -18,4 +18,6 @@ spring:
     serialization:
       indent-output: true
   messages:
-    basename = message
+    basename: com.cc01cc.springboot.i18n.messages.message
+  thymeleaf:
+    cache: false

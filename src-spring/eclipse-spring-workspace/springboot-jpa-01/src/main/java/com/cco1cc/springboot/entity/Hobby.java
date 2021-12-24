@@ -30,7 +30,7 @@ package com.cco1cc.springboot.entity;
  * 
  */
 public enum Hobby {
-    basketball("篮球"), soccerball("足球"), badminton("羽毛球"), game("游戏");
+    basketball("BASKETBALL"), soccerball("SOCCER BALL"), badminton("BADMINTON"), game("GAME");
 
     public static final Hobby[] ALL = {
             basketball, soccerball, badminton, game

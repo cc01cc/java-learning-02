@@ -34,8 +34,9 @@
         <div><span>爱好</span>
             <ul>
                 <li th:each="hobby : ${allHobby}">
-                    <input type="checkbox" th:value="${hobby}" />
-                    <label th:text="${hobby}"></label>
+                    <label th:for="${#ids.next('Hobby')}" th:text="#{${'Hobby.' + hobby}}" ></label>
+                    <!-- <label th:for="${#ids.next('Hobby')}" th:text="#{message}" ></label> -->
+                    <input type="checkbox" th:field="*{hobby}"  th:value="${hobby}"/>
                 </li>
             </ul>
         </div>
