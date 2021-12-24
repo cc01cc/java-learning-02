@@ -17,7 +17,5 @@ spring:
   jackson:
     serialization:
       indent-output: true
-  messages:
-    basename: com.cc01cc.springboot.i18n.messages.message
   thymeleaf:
     cache: false
